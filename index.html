@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4shell.org — Tracking the *4Shell and *2Shell vulnerabilities</title>
+  <meta name="description" content="A community index of every Log4Shell-style named vulnerability: Log4Shell, Spring4Shell, Text4Shell, Java4Shell, React2Shell, PHP2Shell, Node2Shell, wp2shell and more, with NVD, CISA KEV, vendor advisories and public PoCs.">
+  <meta property="og:title" content="4shell.org">
+  <meta property="og:description" content="Every *4Shell and *2Shell vulnerability in one place, with NVD, CISA KEV, advisories and PoCs.">
+  <meta property="og:url" content="https://4shell.org/">
+  <meta name="theme-color" content="#0b0f14">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="logo" href="#top"><span class="prompt">$</span> 4shell<span class="dim">.org</span></a>
+      <nav>
+        <a href="#index">Index</a>
+        <a href="#about">About</a>
+        <a id="gh-link" href="https://github.com/Lightmean03/4shell.org">GitHub</a>
+        <button id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="eyebrow">// community vulnerability index</p>
+      <h1>Every <span class="accent">*4Shell</span> and <span class="accent2">*2Shell</span>, in one place.</h1>
+      <p class="lede">
+        Since Log4Shell in 2021, the internet has named its worst remote-code-execution bugs after it.
+        This site tracks each one, with links to the CVE records at NIST&nbsp;NVD, CISA's Known Exploited
+        Vulnerabilities catalog, vendor advisories, technical write-ups and public proof-of-concepts.
+      </p>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="wrap" id="index">
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search name, CVE, product…" autocomplete="off" aria-label="Search vulnerabilities">
+        <div class="filters" role="group" aria-label="Filter">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="4shell">*4Shell</button>
+          <button class="chip" data-filter="2shell">*2Shell</button>
+          <button class="chip" data-filter="kev">In CISA KEV</button>
+        </div>
+      </div>
+      <p class="updated" id="updated"></p>
+      <div id="list" class="list" aria-live="polite"></div>
+    </section>
+
+    <section class="wrap about" id="about">
+      <h2>About</h2>
+      <div class="about-grid">
+        <div>
+          <h3>Why "4Shell" and "2Shell"?</h3>
+          <p>
+            <strong>Log4Shell</strong> (December 2021) took its name from "Log4j" plus "shell": one log line
+            gave an attacker a shell. <strong>Spring4Shell</strong> and <strong>Text4Shell</strong> followed in 2022.
+            In December 2025, <strong>React2Shell</strong> switched to "2Shell" ("React <em>to</em> shell"), and the
+            2026 wave of PHP2Shell, Node2Shell, wp2shell and others kept that form. Most of these names are informal,
+            so always check the CVE IDs.
+          </p>
+        </div>
+        <div>
+          <h3>What gets listed</h3>
+          <p>
+            A bug is listed when it has a CVE, is widely called <code>*4Shell</code> or <code>*2Shell</code>,
+            and has been covered by at least one reputable source. Related "-Shell" bugs that don't follow
+            the naming (ProxyShell, ToolShell, Shellshock) are out of scope.
+          </p>
+        </div>
+        <div>
+          <h3>About the PoC links</h3>
+          <p class="warn-text">
+            Proof-of-concept links point to third-party code that hasn't been audited. Fake "PoC" repos that
+            install malware show up within hours of every big CVE. Read the code before you run it, run it only
+            in an isolated lab, and test only systems you're authorized to test.
+          </p>
+        </div>
+        <div>
+          <h3>Contribute</h3>
+          <p>
+            Found a new one, a dead link, or a better PoC? Every entry lives in
+            <a id="data-link" href="https://github.com/Lightmean03/4shell.org/blob/main/data/vulns.json"><code>data/vulns.json</code></a>.
+            Open a pull request or an issue on GitHub.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>4shell.org is an independent, community-maintained index and is not affiliated with any vendor, NIST, or CISA. Information is provided as-is; verify it against official advisories.</p>
+      <p class="dim">Content licensed CC BY 4.0 · Code MIT</p>
+    </div>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

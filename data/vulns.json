@@ -1,0 +1,1462 @@
+{
+  "updated": "2026-11-18",
+  "vulns": [
+    {
+      "slug": "log4shell",
+      "name": "Log4Shell",
+      "aliases": [],
+      "family": "4shell",
+      "product": "Apache Log4j 2 (log4j-core)",
+      "vendor": "Apache Software Foundation",
+      "disclosed": "2021-12-09",
+      "discoverer": "Chen Zhaojun, Alibaba Cloud Security Team",
+      "summary": "Log4j 2 resolved ${jndi:...} lookups inside logged strings, so any attacker-controlled text that got logged (a User-Agent header, a username, a chat message) could make the server fetch and run a Java class from an attacker's LDAP or RMI server. Because Log4j is embedded in a huge number of Java products and services, it was one of the most widespread critical vulnerabilities ever disclosed. Several follow-up CVEs fixed incomplete patches and related lookup flaws.",
+      "impact": "Unauthenticated RCE",
+      "affected": "log4j-core 2.0-beta9 through 2.14.1 for CVE-2021-44228; follow-on CVEs extend the range up to 2.17.0 (excluding the 2.3.x/2.12.x security releases)",
+      "fixed": "2.17.1 (Java 8+), 2.12.4 (Java 7), 2.3.2 (Java 6) fix all four CVEs. 2.15.0 was the first fix for CVE-2021-44228, 2.16.0 for CVE-2021-45046, and 2.17.0 for CVE-2021-45105",
+      "mitigation": "Upgrade log4j-core to 2.17.1 / 2.12.4 / 2.3.2 or later. Early workarounds such as formatMsgNoLookups proved insufficient; the only stopgap Apache endorsed was removing the JndiLookup class from the classpath.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2021-12-10"
+      },
+      "cves": [
+        {
+          "id": "CVE-2021-44228",
+          "cvss": 10.0,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "JNDI lookup in log messages lets an attacker load remote code (the original Log4Shell). KEV 2021-12-10, known ransomware use.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
+        },
+        {
+          "id": "CVE-2021-45046",
+          "cvss": 9.0,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Incomplete 2.15.0 fix; Thread Context (MDC) lookups in non-default patterns allow RCE or info leak. Fixed in 2.16.0. KEV 2023-05-01.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-45046"
+        },
+        {
+          "id": "CVE-2021-45105",
+          "cvss": 5.9,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "Uncontrolled recursion from self-referential lookups causes DoS. Fixed in 2.17.0. Not in KEV.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-45105"
+        },
+        {
+          "id": "CVE-2021-44832",
+          "cvss": 6.6,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "RCE via JDBC Appender with a JNDI LDAP data source; requires an attacker who can change the logging config. Fixed in 2.17.1. Not in KEV.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-44832"
+        }
+      ],
+      "official": [
+        {
+          "title": "Apache Log4j Security Vulnerabilities",
+          "url": "https://logging.apache.org/log4j/2.x/security.html"
+        },
+        {
+          "title": "GitHub Advisory GHSA-jfh8-c2jp-5v3q (CVE-2021-44228)",
+          "url": "https://github.com/advisories/GHSA-jfh8-c2jp-5v3q"
+        },
+        {
+          "title": "GitHub Advisory GHSA-7rjr-3q55-vv33 (CVE-2021-45046)",
+          "url": "https://github.com/advisories/GHSA-7rjr-3q55-vv33"
+        },
+        {
+          "title": "CISA: Apache Log4j Vulnerability Guidance",
+          "url": "https://www.cisa.gov/news-events/news/apache-log4j-vulnerability-guidance"
+        },
+        {
+          "title": "CISA AA21-356A: Mitigating Log4Shell and Other Log4j-Related Vulnerabilities",
+          "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-356a"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Cloudflare: Inside the Log4j2 vulnerability (CVE-2021-44228)",
+          "url": "https://blog.cloudflare.com/inside-the-log4j2-vulnerability-cve-2021-44228/"
+        },
+        {
+          "title": "Swiss GovCERT: Zero-Day Exploit Targeting Popular Java Library Log4j",
+          "url": "https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/"
+        },
+        {
+          "title": "Datadog: The Log4j Log4Shell vulnerability: Overview, detection, and remediation",
+          "url": "https://www.datadoghq.com/blog/log4j-log4shell-vulnerability-overview-and-remediation/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "fullhunt/log4j-scan",
+          "url": "https://github.com/fullhunt/log4j-scan",
+          "type": "scanner",
+          "stars": 3424,
+          "note": "Automated remote scanner for CVE-2021-44228 / CVE-2021-45046"
+        },
+        {
+          "title": "kozmer/log4j-shell-poc",
+          "url": "https://github.com/kozmer/log4j-shell-poc",
+          "type": "exploit",
+          "stars": 1843,
+          "note": "Widely cited PoC with a vulnerable test app; archived"
+        },
+        {
+          "title": "christophetd/log4shell-vulnerable-app",
+          "url": "https://github.com/christophetd/log4shell-vulnerable-app",
+          "type": "lab",
+          "stars": 1144,
+          "note": "Spring Boot app vulnerable to Log4Shell, for testing"
+        },
+        {
+          "title": "NCSC-NL/log4shell",
+          "url": "https://github.com/NCSC-NL/log4shell",
+          "type": "scanner",
+          "stars": 1885,
+          "note": "Dutch NCSC operational info: affected-software list, detection and IoCs; archived"
+        },
+        {
+          "title": "cisagov/log4j-scanner",
+          "url": "https://github.com/cisagov/log4j-scanner",
+          "type": "scanner",
+          "stars": 1280,
+          "note": "CISA's web-service scanner derived from community tools; archived"
+        },
+        {
+          "title": "google/log4jscanner",
+          "url": "https://github.com/google/log4jscanner",
+          "type": "scanner",
+          "stars": 1559,
+          "note": "Google's filesystem/JAR scanner; archived"
+        }
+      ]
+    },
+    {
+      "slug": "spring4shell",
+      "name": "Spring4Shell",
+      "aliases": [
+        "SpringShell"
+      ],
+      "family": "4shell",
+      "product": "Spring Framework (spring-webmvc / spring-webflux)",
+      "vendor": "VMware / Spring",
+      "disclosed": "2022-03-31",
+      "discoverer": "codeplutos and meizjm3i of AntGroup FG Security Lab (secondary report from Praetorian)",
+      "summary": "Spring's data binding let request parameters reach class.module.classLoader on JDK 9+. On Tomcat, attackers could use this to rewrite the access-log settings and drop a JSP web shell. It bypassed the 2010 fix for CVE-2010-1622, and details and a PoC leaked publicly before the patch.",
+      "impact": "Unauthenticated RCE (under specific deployment conditions)",
+      "affected": "Spring Framework 5.3.0-5.3.17, 5.2.0-5.2.19 and older unsupported versions; the known exploit needs JDK 9+, Apache Tomcat, WAR deployment, and spring-webmvc or spring-webflux",
+      "fixed": "Spring Framework 5.3.18 and 5.2.20 (Spring Boot 2.6.6 / 2.5.12 pull in the fix)",
+      "mitigation": "Upgrade Spring Framework (or Spring Boot). If you cannot upgrade yet, upgrade Tomcat (10.0.20 / 9.0.62 / 8.5.78), downgrade to Java 8, or add a disallowedFields binder for class.* / Class.* patterns, as Spring's early announcement describes.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2022-04-04"
+      },
+      "cves": [
+        {
+          "id": "CVE-2022-22965",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Spring MVC/WebFlux RCE via data binding on JDK 9+ (Spring4Shell). KEV 2022-04-04.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-22965"
+        },
+        {
+          "id": "CVE-2022-22963",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "A separate, unrelated bug: SpEL injection via the spring.cloud.function.routing-expression header in Spring Cloud Function <=3.1.6 / <=3.2.2 (fixed 3.1.7 / 3.2.3). Disclosed the same week and often grouped or confused with Spring4Shell, but it is not Spring4Shell. KEV 2022-08-25.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-22963"
+        }
+      ],
+      "official": [
+        {
+          "title": "Spring: CVE-2022-22965 advisory",
+          "url": "https://spring.io/security/cve-2022-22965"
+        },
+        {
+          "title": "Spring Framework RCE, Early Announcement (workarounds)",
+          "url": "https://spring.io/blog/2022/03/31/spring-framework-rce-early-announcement"
+        },
+        {
+          "title": "Spring: CVE-2022-22963 (Spring Cloud Function) advisory",
+          "url": "https://spring.io/security/cve-2022-22963"
+        },
+        {
+          "title": "GitHub Advisory GHSA-36p3-wjmg-h94x (CVE-2022-22965)",
+          "url": "https://github.com/advisories/GHSA-36p3-wjmg-h94x"
+        },
+        {
+          "title": "GitHub Advisory GHSA-6v73-fgf6-w5j7 (CVE-2022-22963)",
+          "url": "https://github.com/advisories/GHSA-6v73-fgf6-w5j7"
+        },
+        {
+          "title": "CISA Known Exploited Vulnerabilities Catalog",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Praetorian: Spring Core on JDK9+ is vulnerable to remote code execution",
+          "url": "https://www.praetorian.com/blog/spring-core-jdk9-rce/"
+        },
+        {
+          "title": "Unit 42: CVE-2022-22965 SpringShell RCE Vulnerability Analysis and Mitigations",
+          "url": "https://unit42.paloaltonetworks.com/cve-2022-22965-springshell/"
+        },
+        {
+          "title": "Microsoft: SpringShell RCE vulnerability guidance for protecting against and detecting CVE-2022-22965",
+          "url": "https://www.microsoft.com/en-us/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "reznok/Spring4Shell-POC",
+          "url": "https://github.com/reznok/Spring4Shell-POC",
+          "type": "exploit",
+          "stars": 327,
+          "note": "Dockerized vulnerable app plus exploit script"
+        },
+        {
+          "title": "BobTheShoplifter/Spring4Shell-POC",
+          "url": "https://github.com/BobTheShoplifter/Spring4Shell-POC",
+          "type": "exploit",
+          "stars": 380,
+          "note": "Early PoC with vulnerable application"
+        },
+        {
+          "title": "lunasec-io/Spring4Shell-POC",
+          "url": "https://github.com/lunasec-io/Spring4Shell-POC",
+          "type": "lab",
+          "stars": 105,
+          "note": "LunaSec's dockerized vulnerable app"
+        },
+        {
+          "title": "fullhunt/spring4shell-scan",
+          "url": "https://github.com/fullhunt/spring4shell-scan",
+          "type": "scanner",
+          "stars": 655,
+          "note": "Remote scanner for Spring4Shell and Spring Cloud Function (CVE-2022-22963)"
+        },
+        {
+          "title": "hillu/local-spring-vuln-scanner",
+          "url": "https://github.com/hillu/local-spring-vuln-scanner",
+          "type": "scanner",
+          "stars": 125,
+          "note": "Local filesystem scanner for vulnerable Spring jars; archived (moved to Codeberg)"
+        },
+        {
+          "title": "me2nuk/CVE-2022-22963",
+          "url": "https://github.com/me2nuk/CVE-2022-22963",
+          "type": "lab",
+          "stars": 19,
+          "note": "Vulnerable Spring Cloud Function app for CVE-2022-22963 (low star count)"
+        }
+      ]
+    },
+    {
+      "slug": "text4shell",
+      "name": "Text4Shell",
+      "aliases": [],
+      "family": "4shell",
+      "product": "Apache Commons Text",
+      "vendor": "Apache Software Foundation",
+      "disclosed": "2022-10-13",
+      "discoverer": "Alvaro Munoz (GitHub Security Lab)",
+      "summary": "Apache Commons Text's StringSubstitutor turned on the 'script', 'dns' and 'url' lookups by default. If untrusted input reached a default interpolator, a string like ${script:javascript:...} could run code on the server. The bug class resembles Log4Shell, but real-world exposure was much smaller because applications rarely pass untrusted input to these APIs.",
+      "impact": "RCE (only when untrusted input reaches StringSubstitutor interpolation with default lookups)",
+      "affected": "Apache Commons Text 1.5 through 1.9",
+      "fixed": "Apache Commons Text 1.10.0 (problematic lookups disabled by default)",
+      "mitigation": "Upgrade to Commons Text 1.10.0 or later. Do not pass untrusted input to StringSubstitutor.createInterpolator() or to the default lookups.",
+      "exploited_in_wild": null,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2022-42889",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Default script/dns/url interpolators in StringSubstitutor allow code execution or remote contact. Not in KEV.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-42889"
+        }
+      ],
+      "official": [
+        {
+          "title": "Apache Commons Text announcement (dev@commons / announce list)",
+          "url": "https://lists.apache.org/thread/n2bd4vdsgkqh2tm14l1wyc3jyol7s1om"
+        },
+        {
+          "title": "GitHub Security Lab GHSL-2022-018: Apache Commons Text",
+          "url": "https://securitylab.github.com/advisories/GHSL-2022-018_Apache_Commons_Text/"
+        },
+        {
+          "title": "GitHub Advisory GHSA-599f-7c49-w659",
+          "url": "https://github.com/advisories/GHSA-599f-7c49-w659"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Rapid7: CVE-2022-42889: Keep Calm and Stop Saying '4Shell'",
+          "url": "https://www.rapid7.com/blog/post/2022/10/17/cve-2022-42889-keep-calm-and-stop-saying-4shell/"
+        },
+        {
+          "title": "Wordfence: Threat Advisory: CVE-2022-42889 Text4Shell Vulnerability Exploitation Attempts",
+          "url": "https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-42889-text4shell-vulnerability-exploitation-attempts/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "karthikuj/cve-2022-42889-text4shell-docker",
+          "url": "https://github.com/karthikuj/cve-2022-42889-text4shell-docker",
+          "type": "lab",
+          "stars": 76,
+          "note": "Dockerized vulnerable app and PoC"
+        },
+        {
+          "title": "SeanWrightSec/CVE-2022-42889-PoC",
+          "url": "https://github.com/SeanWrightSec/CVE-2022-42889-PoC",
+          "type": "exploit",
+          "stars": 35,
+          "note": "Minimal PoC demonstrating the interpolation flaw"
+        },
+        {
+          "title": "kljunowsky/CVE-2022-42889-text4shell",
+          "url": "https://github.com/kljunowsky/CVE-2022-42889-text4shell",
+          "type": "exploit",
+          "stars": 56,
+          "note": "PoC exploit script"
+        },
+        {
+          "title": "silentsignal/burp-text4shell",
+          "url": "https://github.com/silentsignal/burp-text4shell",
+          "type": "scanner",
+          "stars": 189,
+          "note": "Burp Suite active-scan extension from Silent Signal"
+        }
+      ]
+    },
+    {
+      "slug": "react2shell",
+      "name": "React2Shell",
+      "aliases": [],
+      "family": "2shell",
+      "product": "React Server Components (react-server-dom-webpack / -parcel / -turbopack) and frameworks built on them, notably Next.js App Router",
+      "vendor": "Meta (React) / Vercel (Next.js)",
+      "disclosed": "2025-12-03",
+      "discoverer": "Lachlan Davidson (reported to Meta Bug Bounty on 2025-11-29)",
+      "summary": "React Server Components unsafely deserialized 'Flight' protocol payloads sent to Server Function endpoints. One crafted HTTP request could therefore run code on the server, with no login and often in a default Next.js App Router app. Public exploits appeared within a day or two, and CISA added it to KEV on 2025-12-05 after China-nexus groups began exploiting it. Follow-up research found DoS and source-code-exposure bugs in the same code, none of them RCE.",
+      "impact": "Unauthenticated RCE",
+      "affected": "react-server-dom-* 19.0.0, 19.1.0, 19.1.1, 19.2.0; Next.js 15.x, 16.x and 14.3.0-canary.77+ (App Router). Also react-router RSC, waku, @parcel/rsc, @vitejs/plugin-rsc, rwsdk. Next.js 13.x, 14.x stable, Pages Router and Edge Runtime are not affected",
+      "fixed": "RCE fixed in React 19.0.1 / 19.1.2 / 19.2.1 and Next.js 15.0.5, 15.1.9, 15.2.6, 15.3.6, 15.4.8, 15.5.7, 16.0.7. React 19.0.4 / 19.1.5 / 19.2.4 also fix the follow-on DoS and source-exposure CVEs (including CVE-2026-23864, Jan 2026)",
+      "mitigation": "Upgrade React RSC packages and your framework to the latest patched release (for Next.js, `npx fix-react2shell-next`). There is no workaround, and WAF rules are only temporary. Vercel recommends rotating secrets for any app that was online and unpatched on 2025-12-04.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2025-12-05"
+      },
+      "cves": [
+        {
+          "id": "CVE-2025-55182",
+          "cvss": 10.0,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Pre-auth RCE via unsafe deserialization in RSC Server Function endpoints (React2Shell). KEV 2025-12-05, known ransomware use per KEV.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-55182"
+        },
+        {
+          "id": "CVE-2025-66478",
+          "cvss": null,
+          "cvss_version": null,
+          "severity": null,
+          "note": "Next.js-specific CVE (GHSA-9qr9-h5gf-34mp), rejected as a duplicate of CVE-2025-55182.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-66478"
+        },
+        {
+          "id": "CVE-2025-55183",
+          "cvss": 5.3,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "Source code exposure: a crafted request can return a Server Function's source when an argument is stringified. Disclosed 2025-12-11, reported by Andrew MacPherson.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-55183"
+        },
+        {
+          "id": "CVE-2025-55184",
+          "cvss": 7.5,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Pre-auth DoS: an infinite loop during deserialization hangs the server. Disclosed 2025-12-11, reported by RyotaK (GMO Flatt Security) and Shinsaku Nomura.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-55184"
+        },
+        {
+          "id": "CVE-2025-67779",
+          "cvss": 7.5,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Incomplete fix for CVE-2025-55184 (DoS) in 19.0.2 / 19.1.3 / 19.2.2. Found internally by the React team and disclosed 2025-12-11.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-67779"
+        }
+      ],
+      "official": [
+        {
+          "title": "React blog: Critical Security Vulnerability in React Server Components",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components"
+        },
+        {
+          "title": "React blog: Denial of Service and Source Code Exposure in React Server Components",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components"
+        },
+        {
+          "title": "GitHub Advisory GHSA-fv66-9v8q-g76r (facebook/react)",
+          "url": "https://github.com/facebook/react/security/advisories/GHSA-fv66-9v8q-g76r"
+        },
+        {
+          "title": "Next.js Security Advisory: CVE-2025-66478",
+          "url": "https://nextjs.org/blog/CVE-2025-66478"
+        },
+        {
+          "title": "GitHub Advisory GHSA-9qr9-h5gf-34mp (vercel/next.js)",
+          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-9qr9-h5gf-34mp"
+        },
+        {
+          "title": "Next.js Security Update: December 11, 2025",
+          "url": "https://nextjs.org/blog/security-update-2025-12-11"
+        },
+        {
+          "title": "Vercel changelog: CVE-2025-55182",
+          "url": "https://vercel.com/changelog/cve-2025-55182"
+        },
+        {
+          "title": "CISA Known Exploited Vulnerabilities Catalog",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "react2shell.com (discoverer Lachlan Davidson's site)",
+          "url": "https://react2shell.com/"
+        },
+        {
+          "title": "Wiz: Critical vulnerability in React (CVE-2025-55182)",
+          "url": "https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182"
+        },
+        {
+          "title": "Datadog Security Labs: CVE-2025-55182 React2Shell RCE in React Server Components",
+          "url": "https://securitylabs.datadoghq.com/articles/cve-2025-55182-react2shell-remote-code-execution-react-server-components/"
+        },
+        {
+          "title": "AWS Security Blog: China-nexus cyber threat groups rapidly exploit React2Shell",
+          "url": "https://aws.amazon.com/blogs/security/china-nexus-cyber-threat-groups-rapidly-exploit-react2shell-vulnerability-cve-2025-55182/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "lachlan2k/React2Shell-CVE-2025-55182-original-poc",
+          "url": "https://github.com/lachlan2k/React2Shell-CVE-2025-55182-original-poc",
+          "type": "exploit",
+          "stars": 1068,
+          "note": "Discoverer's original PoCs, published 2025-12-05"
+        },
+        {
+          "title": "msanft/CVE-2025-55182",
+          "url": "https://github.com/msanft/CVE-2025-55182",
+          "type": "exploit",
+          "stars": 1435,
+          "note": "Technical explanation with a full RCE PoC"
+        },
+        {
+          "title": "ejpir/CVE-2025-55182-research",
+          "url": "https://github.com/ejpir/CVE-2025-55182-research",
+          "type": "exploit",
+          "stars": 790,
+          "note": "Early research repo, created on disclosure day; Rapid7 warned that many early PoCs did not reproduce the real bug, and this one is unverified"
+        },
+        {
+          "title": "assetnote/react2shell-scanner",
+          "url": "https://github.com/assetnote/react2shell-scanner",
+          "type": "scanner",
+          "stars": 2451,
+          "note": "Assetnote / Searchlight Cyber high-fidelity detection for RSC / Next.js"
+        },
+        {
+          "title": "vercel-labs/fix-react2shell-next",
+          "url": "https://github.com/vercel-labs/fix-react2shell-next",
+          "type": "scanner",
+          "stars": 403,
+          "note": "Vercel's official CLI that detects and bumps vulnerable Next.js versions (npx fix-react2shell-next)"
+        }
+      ]
+    },
+    {
+      "slug": "php2shell",
+      "name": "PHP2Shell",
+      "aliases": [],
+      "family": "2shell",
+      "product": "PHP",
+      "vendor": "The PHP Group",
+      "disclosed": "2026-10-21",
+      "discoverer": "Calif Research (Ryan Austin), Wiz Research (Sagi Tzadik et al.), and OpenAI; GHSA also credits reporter tomash-areion",
+      "summary": "Two memory-safety bugs in PHP's core request lifecycle. One leaves request memory uninitialized when an out-of-memory error aborts a request, and the other leaves global state pointing at freed request memory. Either can be triggered with crafted multipart or session-upload-progress requests and turned into unauthenticated remote code execution in the PHP worker.",
+      "impact": "Unauthenticated RCE",
+      "affected": "All PHP versions before 8.2.35, 8.3.36, 8.4.27 and 8.5.12 that serve web requests, with mod_php at highest risk. EOL branches (back to at least 5.4 per Wiz) are also affected.",
+      "fixed": "PHP 8.5.12, 8.4.27, 8.3.36, 8.2.35 (2026-10-21); the PHP security team published source backports for 7.4, 8.0 and 8.1",
+      "mitigation": "Upgrade immediately; PHP says no mitigation is complete. Interim hardening: memory_limit=-1, a low post_max_size and session.upload_progress.enabled=0, plus WAF rules.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2026-10-26"
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-109618",
+          "cvss": 9.2,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "RCE via OOM corruption: longjmp() on out-of-memory leaves request memory uninitialized and request shutdown then uses it (CWE-416). NVD's CVSS 3.1 score is 9.8.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-109618"
+        },
+        {
+          "id": "CVE-2026-109619",
+          "cvss": 9.2,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "RCE via stale global state: worker globals still point into freed request memory and the next request uses them, e.g. the session.upload_progress path (CWE-416). NVD's CVSS 3.1 score is 8.1.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-109619"
+        }
+      ],
+      "official": [
+        {
+          "title": "PHP security advisory: CVE-2026-109618 / CVE-2026-109619 (php.net, 21 Oct 2026)",
+          "url": "https://www.php.net/archive/2026.php#2026-10-21-5"
+        },
+        {
+          "title": "PHP 8.5.12 Released (php.net)",
+          "url": "https://www.php.net/archive/2026.php#2026-10-21-4"
+        },
+        {
+          "title": "GHSA-w8hw-w9fx-j79w: RCE via OOM corruption (CVE-2026-109618)",
+          "url": "https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w"
+        },
+        {
+          "title": "GHSA-6wmf-4rv5-p3rp: RCE via stale global state (CVE-2026-109619)",
+          "url": "https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp"
+        },
+        {
+          "title": "CISA alert: Critical Vulnerabilities in PHP Require Immediate Patching",
+          "url": "https://www.cisa.gov/news-events/alerts/2026/10/21/critical-vulnerabilities-php-require-immediate-patching"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Wiz: PHP2Shell: AI uncovers critical RCE vulnerabilities affecting 70% of the Internet",
+          "url": "https://www.wiz.io/blog/php2shell-php-rce"
+        },
+        {
+          "title": "Calif: PHP2Shell",
+          "url": "https://calif.io/php2shell"
+        },
+        {
+          "title": "Arctic Wolf: PHP2Shell critical PHP vulnerabilities enable unauthenticated RCE",
+          "url": "https://arcticwolf.com/resources/blog/php2shell-critical-php-vulnerabilities-enable-unauthenticated-remote-code-execution/"
+        },
+        {
+          "title": "PHP2Shell exploitation tracker (timeline and in-the-wild telemetry)",
+          "url": "https://php2shell.delftintellab.com/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "openai/php2shell-checker",
+          "url": "https://github.com/openai/php2shell-checker",
+          "type": "scanner",
+          "stars": 1473,
+          "note": "Checker from OpenAI, one of the credited reporters"
+        },
+        {
+          "title": "assetnote/php2shell-scanner",
+          "url": "https://github.com/assetnote/php2shell-scanner",
+          "type": "scanner",
+          "stars": 1012,
+          "note": "High-fidelity remote scanner from Assetnote (Searchlight Cyber)"
+        },
+        {
+          "title": "NCSC-NL/php2shell",
+          "url": "https://github.com/NCSC-NL/php2shell",
+          "type": "scanner",
+          "stars": 370,
+          "note": "Dutch NCSC operational info: IoCs, detection, vendor status"
+        },
+        {
+          "title": "ikow/php2shell-poc",
+          "url": "https://github.com/ikow/php2shell-poc",
+          "type": "exploit",
+          "stars": 1988,
+          "note": "PoC chains, Docker lab and Suricata/Sigma/ModSecurity rules; listed by the tracker as 'not independently confirmed'"
+        },
+        {
+          "title": "9bie/php2shell-bypass-aslr-exp",
+          "url": "https://github.com/9bie/php2shell-bypass-aslr-exp",
+          "type": "exploit",
+          "stars": 1583,
+          "note": "Claims to bypass ASLR on unmodified official builds; individual researcher, not vetted"
+        },
+        {
+          "title": "corelight/php2shell-detect",
+          "url": "https://github.com/corelight/php2shell-detect",
+          "type": "scanner",
+          "stars": 16,
+          "note": "Zeek/Suricata network detections from Corelight"
+        }
+      ]
+    },
+    {
+      "slug": "node2shell",
+      "name": "Node2Shell",
+      "aliases": [
+        "HTTP2Shell",
+        "Broccoli2Shell",
+        "Brotli2Shell"
+      ],
+      "family": "2shell",
+      "product": "Google Brotli decoder (bundled in Node.js, Python Brotli/brotlicffi, .NET, Bun, Envoy, and others)",
+      "vendor": "Google",
+      "disclosed": "2026-10-21",
+      "discoverer": "OpenAI Codex Security (Khai Tran and Sylvie Mayer), per the Node.js advisory; Imperva Red Team (Ron Masas) did the RCE research",
+      "summary": "An out-of-bounds write in Google's Brotli decoder. An invalid block switch was reported as 'needs more input' instead of a format error, so the streaming decoder kept writing past an 8-byte internal buffer. Any software that decompresses attacker-supplied Brotli data, such as HTTP request or response bodies with Content-Encoding: br, can crash, leak memory or, on some builds, run attacker code.",
+      "impact": "Unauthenticated RCE (memory corruption, info disclosure, DoS); exploitability depends on the build and whether the app decodes untrusted Brotli",
+      "affected": "Google Brotli 1.0.3 through 1.2.0. Node.js 22.x/24.x/26.x before the fixes, plus EOL 20/23/25 with no fix. PyPI Brotli >=1.0.3,<1.2.1 and brotlicffi >=1.0.3,<1.2.1.0. .NET 8/9/10 (11 RC), where exposure needs Brotli decompression to be enabled. Also Bun, Envoy, PAN-OS, Apple OSes and vendored copies.",
+      "fixed": "Brotli 1.0.10 / 1.1.1 / 1.2.1; Node.js 22.23.4 / 24.22.1 / 26.12.1; Python Brotli 1.2.1, brotlicffi 1.2.1.0; .NET 8.0.33 / 9.0.22 / 10.0.14",
+      "mitigation": "Update every Brotli copy (runtime, language packages, container images, vendored libraries) and restart services. Until then, reject or strip Content-Encoding: br request bodies at the proxy or WAF, and turn off Brotli decompression in .NET or Express where it is not needed.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2026-10-27"
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-111497",
+          "cvss": 9.2,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "Brotli decoder (c/dec/decode.c) out-of-bounds write via an unchecked return value (CWE-252/CWE-787). NVD's CVSS 3.1 score is 9.8. Node.js rates it High and Microsoft's .NET advisory gives CVSS 3.1 8.1.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-111497"
+        }
+      ],
+      "official": [
+        {
+          "title": "Node.js: Wednesday, October 21, 2026 Security Releases",
+          "url": "https://nodejs.org/en/blog/vulnerability/october-2026-security-releases"
+        },
+        {
+          "title": "google/brotli v1.2.1 release (also v1.1.1, v1.0.10)",
+          "url": "https://github.com/google/brotli/releases/tag/v1.2.1"
+        },
+        {
+          "title": "GHSA-9v8h-qqgm-4m35: Brotli out-of-bounds write (PyPI Brotli/brotlicffi)",
+          "url": "https://github.com/advisories/GHSA-9v8h-qqgm-4m35"
+        },
+        {
+          "title": "Microsoft Security Advisory CVE-2026-111497: .NET Brotli Decoder Out-of-bounds Write",
+          "url": "https://github.com/dotnet/announcements/issues/494"
+        },
+        {
+          "title": "MSRC Security Update Guide: CVE-2026-111497",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497"
+        },
+        {
+          "title": "Debian LTS announcement",
+          "url": "https://lists.debian.org/debian-lts-announce/2026/10/msg00049.html"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Imperva: Node2Shell: From Brotli Data to Remote Code Execution",
+          "url": "https://www.imperva.com/blog/node2shell-from-brotli-data-to-remote-code-execution/"
+        },
+        {
+          "title": "ELLIO: Node2Shell: remote code execution on stock Node.js builds",
+          "url": "https://ellio.tech/en/blog/node2shell-cve-2026-111497-rce-on-stock-nodejs-builds/"
+        },
+        {
+          "title": "Aikido: Node2Shell Node.js Brotli RCE (CVE-2026-111497)",
+          "url": "https://www.aikido.dev/blog/node2shell-nodejs-brotli-rce-cve-2026-111497"
+        },
+        {
+          "title": "broccoli2shell.com: cross-ecosystem impact and timeline",
+          "url": "https://broccoli2shell.com"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "assetnote/node2shell-scanner",
+          "url": "https://github.com/assetnote/node2shell-scanner",
+          "type": "scanner",
+          "stars": 86,
+          "note": "Detection from Assetnote (Searchlight Cyber)"
+        },
+        {
+          "title": "trailofbits/brotli-checker",
+          "url": "https://github.com/trailofbits/brotli-checker",
+          "type": "scanner",
+          "stars": 70,
+          "note": "Trail of Bits agent skill that finds vulnerable vendored Brotli copies"
+        },
+        {
+          "title": "dimasma0305/CVE-2026-111497-POC",
+          "url": "https://github.com/dimasma0305/CVE-2026-111497-POC",
+          "type": "lab",
+          "stars": 81,
+          "note": "Local decoder reproduction with a 'tuned' RCE harness. Likely the public PoC that reports say reaches RCE only on weakened builds; unverified"
+        },
+        {
+          "title": "caveeroo/cve-2026-111497-wordpress-poc",
+          "url": "https://github.com/caveeroo/cve-2026-111497-wordpress-poc",
+          "type": "exploit",
+          "stars": 31,
+          "note": "RCE PoC against one pinned WordPress Docker image (PHP brotli path); unvetted individual"
+        },
+        {
+          "title": "ikow/brotli2crash",
+          "url": "https://github.com/ikow/brotli2crash",
+          "type": "lab",
+          "stars": 7,
+          "note": "Crash analysis; argues RCE is structurally unreachable on Node, which contradicts Imperva and ELLIO"
+        }
+      ]
+    },
+    {
+      "slug": "wp2shell",
+      "name": "wp2shell",
+      "aliases": [],
+      "family": "2shell",
+      "product": "WordPress core",
+      "vendor": "WordPress",
+      "disclosed": "2026-07-17",
+      "discoverer": "Adam Kues (Assetnote / Searchlight Cyber); the CVE-2026-60137 SQLi was also independently reported by TF1T, dtro and haongo",
+      "summary": "wp2shell is a pre-authentication remote code execution chain in a stock WordPress install with no plugins. A route-confusion bug in the REST API batch endpoint (/wp-json/batch/v1) lets an anonymous attacker reach a SQL injection in WP_Query's author__not_in parameter. From there the attacker takes over an admin account and uploads a malicious plugin to run code.",
+      "impact": "Unauthenticated RCE",
+      "affected": "WordPress 6.9.0-6.9.4, 7.0.0-7.0.1 and 7.1 beta1 (full chain); 6.8.0-6.8.5 affected by CVE-2026-60137 only; versions before 6.8 not affected",
+      "fixed": "7.0.2, 6.9.5, 6.8.6 (SQLi only), 7.1 beta2; released 2026-07-17 with forced auto-updates",
+      "mitigation": "Update to 7.0.2 / 6.9.5 (or 6.8.6) right away. WordPress.org pushed forced auto-updates. If you cannot patch, temporarily block anonymous access to /wp-json/batch/v1 and ?rest_route=/batch/v1 at the WAF; Cloudflare shipped managed WAF rules.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2026-07-21"
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-63030",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "REST API batch endpoint route confusion that exposes the author__not_in SQLi to unauthenticated users and leads to RCE (KEV: 'Interpretation Conflict')",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-63030"
+        },
+        {
+          "id": "CVE-2026-60137",
+          "cvss": 5.9,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "SQL injection via improperly sanitised author__not_in parameter of WP_Query",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-60137"
+        }
+      ],
+      "official": [
+        {
+          "title": "WordPress 7.0.2 Release (WordPress.org News)",
+          "url": "https://wordpress.org/news/2026/07/wordpress-7-0-2-release/"
+        },
+        {
+          "title": "GHSA-ff9f-jf42-662q: REST API batch-route confusion and SQL injection leading to RCE (CVE-2026-63030)",
+          "url": "https://github.com/WordPress/wordpress-develop/security/advisories/GHSA-ff9f-jf42-662q"
+        },
+        {
+          "title": "GHSA-fpp7-x2x2-2mjf: Facilitated SQL injection in author__not_in of WP_Query (CVE-2026-60137)",
+          "url": "https://github.com/WordPress/wordpress-develop/security/advisories/GHSA-fpp7-x2x2-2mjf"
+        },
+        {
+          "title": "Searchlight Cyber wp2shell checker",
+          "url": "https://wp2shell.com/"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Searchlight Cyber: wp2shell: Pre-Authentication RCE in WordPress Core",
+          "url": "https://slcyber.io/research/wp2shell-pre-authentication-rce-in-wordpress-core"
+        },
+        {
+          "title": "Searchlight Cyber: Exploit brokers pay $500,000 for a WordPress RCE; I found one with GPT-5.6 (full technical breakdown)",
+          "url": "https://slcyber.io/research-center/exploit-brokers-pay-500000-for-a-wordpress-rce-i-found-one-with-gpt5-6/"
+        },
+        {
+          "title": "Elastic Security Labs: wp2shell WordPress RCE detection with Elastic Defend",
+          "url": "https://www.elastic.co/security-labs/wp2shell-wordpress-rce-detection-elastic-defend"
+        },
+        {
+          "title": "Tenable: wp2shell FAQ (CVE-2026-63030, CVE-2026-60137)",
+          "url": "https://tenable.com/blog/wp2shell-cve-2026-63030-cve-2026-60137-frequently-asked-questions-about-remote-code-execution"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "Icex0/wp2shell-poc",
+          "url": "https://github.com/Icex0/wp2shell-poc",
+          "type": "exploit",
+          "stars": 812,
+          "note": "Full RCE chain that drops a plugin webshell; the PoC Elastic Security Labs tested and referenced. Repo was created minutes after the NVD publication."
+        },
+        {
+          "title": "0xsha/wp2shell",
+          "url": "https://github.com/0xsha/wp2shell",
+          "type": "exploit",
+          "stars": 124,
+          "note": "Unauthenticated RCE chain from a known researcher"
+        },
+        {
+          "title": "dinosn/wp2shell-lab",
+          "url": "https://github.com/dinosn/wp2shell-lab",
+          "type": "lab",
+          "stars": 68,
+          "note": "Non-destructive detector plus Docker lab"
+        },
+        {
+          "title": "ZephrFish/wp2shell-scanner",
+          "url": "https://github.com/ZephrFish/wp2shell-scanner",
+          "type": "scanner",
+          "stars": 71,
+          "note": "Scanner for CVE-2026-63030 / CVE-2026-60137 (ZephrFish is a known researcher)"
+        },
+        {
+          "title": "securelayer7/WordPresShell",
+          "url": "https://github.com/securelayer7/WordPresShell",
+          "type": "exploit",
+          "stars": 20,
+          "note": "Org repo that accompanies the SecureLayer7 technical write-up"
+        },
+        {
+          "title": "own2pwn-fr/wp2shell-detect",
+          "url": "https://github.com/own2pwn-fr/wp2shell-detect",
+          "type": "scanner",
+          "stars": 5,
+          "note": "Blackbox, non-intrusive detector"
+        }
+      ]
+    },
+    {
+      "slug": "plex2shell",
+      "name": "Plex2Shell",
+      "aliases": [],
+      "family": "2shell",
+      "product": "Plex Media Server",
+      "vendor": "Plex",
+      "disclosed": "2026-10-16",
+      "discoverer": "Zach Main (zmain / code-zm)",
+      "summary": "Plex2Shell chains four Plex Media Server bugs into unauthenticated code execution. An SSRF in /player/timeline accepts any X-Plex-Token value. The attacker uses it to reach the loopback-only plugin API and steal the owner's admin token. With that token, the attacker writes a malicious shared library into the Codecs directory, and Plex loads it unsigned and runs it as the plex user. The chain was exploited from 2026-10-17, one day after the PoC was published, to install XMRig miners and proxyware.",
+      "impact": "Unauthenticated RCE (as the Plex service user)",
+      "affected": "Plex Media Server before 1.43.3.10861 (Plex's advisory says v1.43.2 and earlier)",
+      "fixed": "Plex Media Server 1.43.3.10861 (shipped ~2026-08-03/04; Plex security notice posted 2026-09-01)",
+      "mitigation": "Update Plex Media Server to 1.43.3.10861 or later and do not expose port 32400 directly to the internet. Treat any internet-reachable server on an older build as possibly compromised: check the Codecs directory for unexpected .so/.dll files, look for miner or proxy processes, and rotate the Plex account token.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2026-10-20"
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-96652",
+          "cvss": 4.3,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "SSRF via /player/timeline 'protocol' parameter; any X-Plex-Token value accepted (CVSS 4.0: 5.3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-96652"
+        },
+        {
+          "id": "CVE-2026-96654",
+          "cvss": 6.5,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "URL values in 'searchOne' not neutralized, so the attacker can call other plugins' functions with their own parameters (CVSS 4.0: 6.9)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-96654"
+        },
+        {
+          "id": "CVE-2026-96655",
+          "cvss": 4.3,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "SSRF via /video/:/transcode/universal path parameter (CVSS 4.0: 5.3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-96655"
+        },
+        {
+          "id": "CVE-2026-96656",
+          "cvss": 7.2,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Admin arbitrary file write via TranscoderH264Options; unsigned codec .so files loaded at startup, giving code execution (CVSS 4.0: 8.6)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-96656"
+        }
+      ],
+      "official": [
+        {
+          "title": "Plex Forums: Important Security Update for Plex Media Server v1.43.2 and earlier",
+          "url": "https://forums.plex.tv/t/942319"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Zach Main: Plex2Shell (original write-up)",
+          "url": "https://zmain.info/blog/plex2shell"
+        },
+        {
+          "title": "SonicWall: Plex2Shell: Plex Media Server Exploit Chain, SSRF to Arbitrary Code Execution",
+          "url": "https://www.sonicwall.com/blog/plex2shell-plex-media-server-exploit-chain-ssrf-to-arbitrary-code-execution"
+        },
+        {
+          "title": "BoredHackerBlog: Plex vulnerabilities being exploited in the wild (honeypot)",
+          "url": "https://www.boredhackerblog.info/2026/10/plex-vulnerabilities-being-exploited-in.html"
+        },
+        {
+          "title": "SecurityOnline: Plex2Shell Plex Media Server exploited",
+          "url": "https://securityonline.info/plex2shell-plex-media-server-exploited/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "code-zm/plex2shell",
+          "url": "https://github.com/code-zm/plex2shell",
+          "type": "exploit",
+          "stars": 110,
+          "note": "Discoverer's official PoC, linked from zmain.info. Created 2026-10-18, two days after the blog post; may have been re-uploaded."
+        },
+        {
+          "title": "BoredHackerBlog/plex2shell_pcap",
+          "url": "https://github.com/BoredHackerBlog/plex2shell_pcap",
+          "type": "lab",
+          "stars": 1,
+          "note": "PCAPs of in-the-wild exploitation captured by a honeypot (not code)"
+        },
+        {
+          "title": "J4ck3LSyN-Gen2/dockerVulnPlex-plex2shell",
+          "url": "https://github.com/J4ck3LSyN-Gen2/dockerVulnPlex-plex2shell",
+          "type": "lab",
+          "stars": 2,
+          "note": "Docker vulnerable Plex lab; small, low-reputation account, so review before use"
+        },
+        {
+          "title": "ChrisLPJones/plex2shell-check",
+          "url": "https://github.com/ChrisLPJones/plex2shell-check",
+          "type": "scanner",
+          "stars": 2,
+          "note": "Read-only Linux exposure and IOC check; low-reputation account"
+        },
+        {
+          "title": "gmh5225/plex2shell",
+          "url": "https://github.com/gmh5225/plex2shell",
+          "type": "exploit",
+          "stars": 1,
+          "note": "Third-party mirror/copy of the PoC (gmh5225 is a known mirror aggregator); prefer the code-zm original"
+        }
+      ]
+    },
+    {
+      "slug": "nginx2shell",
+      "name": "NGINX2Shell",
+      "aliases": [
+        "nginx2root"
+      ],
+      "family": "2shell",
+      "product": "NGINX Open Source / NGINX Plus (HTTP/2)",
+      "vendor": "F5 / NGINX",
+      "disclosed": "2026-11-18",
+      "discoverer": "Found independently by Wiz Research (Nir Ohfeld, Tomer Schwartz), Ikotas Labs, Metnir, Rapid7 (Stephen Fewer) and Xint",
+      "summary": "CVE-2026-123007 is an integer underflow in NGINX's HTTP/2 flow control. Cancelling a stream with data still queued returns unused window back to send_window without capping it at the maximum. A later unsigned bounds check then wraps, and a negative length reaches an out-of-bounds heap copy in the TLS send path, which can lead to remote code execution in the worker process. It shipped together with a second HTTP/2 RCE-class bug, CVE-2026-123633 (a use-after-free), and three more memory-safety fixes in nginx 1.31.9 / 1.30.7.",
+      "impact": "Unauthenticated RCE (worker process); DoS at minimum",
+      "affected": "NGINX Open Source 1.9.5-1.31.8 with HTTP/2 enabled (CVE-2026-123633: 1.19.7+); NGINX Plus R33 through 37.x before fixed builds (R34-R36 have no fix listed); F5 NGINX Ingress Controller before 5.8.0; forks such as OpenResty, Tengine, Angie and freenginx reportedly contain the code",
+      "fixed": "NGINX Open Source 1.31.9 (mainline) / 1.30.7 (stable); NGINX Plus 37.0.8.1 / 37.3.0.1 (CVE-2026-123633: 37.0.7.1 / 37.2.0.1)",
+      "mitigation": "Upgrade to nginx 1.31.9 / 1.30.7 (or a fixed NGINX Plus build), then do a full restart, because a reload keeps old workers running. If you cannot patch, disable HTTP/2 with 'http2 off;' on 1.25.1+ or by removing 'http2' from listen directives.",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-123007",
+          "cvss": 8.1,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "HTTP/2 flow-control window integer underflow leading to heap out-of-bounds write; F5 also scores CVSS 4.0 9.2 (Critical); nginx.org severity 'major'",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-123007"
+        },
+        {
+          "id": "CVE-2026-123633",
+          "cvss": 8.1,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Companion HTTP/2 use-after-free when proxying to a backend under low worker_connections; CVSS 4.0 9.2 (Critical); nginx.org severity 'medium'",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-123633"
+        }
+      ],
+      "official": [
+        {
+          "title": "nginx.org security advisories",
+          "url": "https://nginx.org/en/security_advisories.html"
+        },
+        {
+          "title": "F5 K000163926: NGINX HTTP/2 vulnerability CVE-2026-123007",
+          "url": "https://my.f5.com/manage/s/article/K000163926"
+        },
+        {
+          "title": "F5 K000163928: NGINX HTTP/2 vulnerability CVE-2026-123633",
+          "url": "https://my.f5.com/manage/s/article/K000163928"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Wiz Research: Unauthenticated Remote Code Execution in NGINX: CVE-2026-123633 and CVE-2026-123007",
+          "url": "https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities"
+        },
+        {
+          "title": "Rapid7: CVE-2026-123007, critical NGINX HTTP/2 integer underflow leads to RCE (fixed)",
+          "url": "https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed/"
+        },
+        {
+          "title": "Xint: NGINX2Root: New Remote Code Execution Vulnerabilities in nginx",
+          "url": "https://xint.io/blog/nginx2root-remote-code-execution"
+        },
+        {
+          "title": "Cyber Kendra: nginx2root: NGINX HTTP/2 RCE Flaws (CVE-2026-123007) Patched",
+          "url": "https://www.cyberkendra.com/2026/11/nginx2root-nginx-http2-rce-cve-2026-123007.html"
+        },
+        {
+          "title": "JFrog: Nginx2Shell: All You Need to Know About CVE-2026-123007 and CVE-2026-123633",
+          "url": "https://research.jfrog.com/post/nginx2shell-all-you-need-to-know-about-cve-2026-123007-and-cve-2026-123633/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "sfewer-r7/CVE-2026-123007",
+          "url": "https://github.com/sfewer-r7/CVE-2026-123007",
+          "type": "exploit",
+          "stars": 58,
+          "note": "Rapid7 (Stephen Fewer) PoC, the only genuine public exploit per Precursor Security and nginx2shell.com. Needs about 128 GB of HTTP/2 traffic on one connection; meant for a local Docker target."
+        },
+        {
+          "title": "The-DevOps-Daily/nginx2root-check",
+          "url": "https://github.com/The-DevOps-Daily/nginx2root-check",
+          "type": "scanner",
+          "stars": 0,
+          "note": "Read-only local checker for the five nginx2root CVEs; brand new and unvetted"
+        },
+        {
+          "title": "Quaerendir/cve-2026-123633-123007-nginx-audit",
+          "url": "https://github.com/Quaerendir/cve-2026-123633-123007-nginx-audit",
+          "type": "scanner",
+          "stars": 0,
+          "note": "Read-only POSIX sh audit; brand new and unvetted"
+        }
+      ]
+    },
+    {
+      "slug": "java4shell",
+      "name": "Java4Shell",
+      "aliases": [
+        "Java2Shell"
+      ],
+      "family": "4shell",
+      "product": "OpenJDK / Oracle Java SE (HotSpot JVM)",
+      "vendor": "Oracle / OpenJDK",
+      "disclosed": "2026-11-17",
+      "discoverer": "Quang Luong (Calif.io); Oracle also credits Albert Yang",
+      "summary": "A heap overflow in the AVX-512 VBMI-accelerated Base64 decoder intrinsic of the HotSpot JVM on x86-64. Any Java app that Base64-decodes attacker-controlled input can have its heap corrupted, crashing the JVM or potentially leading to code execution. Details leaked shortly before the coordinated Oracle/OpenJDK release on 17 Nov 2026.",
+      "impact": "Unauthenticated remote code execution or JVM crash (DoS); Calif demonstrated pre-auth RCE in default Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate and post-auth RCE in Kafka, Solr, Elasticsearch, Gerrit and Spinnaker. Datadog and OX Security note DoS is far easier than reliable RCE.",
+      "affected": "OpenJDK 17.0.6 and later on the 17, 21, 25 and 27 lines (and downstream builds: Corretto, Temurin, Zulu, Liberica, Microsoft, Red Hat, SapMachine, GraalVM), only on x86-64 CPUs with AVX-512 VBMI (Intel Ice Lake+ Xeon, AMD Zen 4+). Oracle lists Java SE 8u511b33-perf, 17.0.21.0.3, 21.0.13.0.3, 25.0.5.0.3, 27.0.1.0.3; GraalVM for JDK 17.0.21.0.3/21.0.13.0.3; GraalVM EE 21.3.20.0.3. ARM64 and standard Java 8/11 not affected.",
+      "fixed": "Oracle/OpenJDK 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1, 8u513-perf; GraalVM 17.0.21.1, 21.0.13.1, 21.3.20.1; Amazon Corretto 27.0.1.1.4 (and siblings) and Azul Zulu shipped 17 Nov; Temurin rolling out; Red Hat/Ubuntu fixes pending as of 18 Nov.",
+      "mitigation": "Update to a fixed JDK build and restart all JVMs, including bundled runtimes and container images. As a stopgap start the JVM with -XX:-UseBASE64Intrinsics (or -XX:UseAVX=2 on x86-64 only).",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-114938",
+          "cvss": 8.1,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Heap out-of-bounds write (CWE-122/787) in HotSpot x86-64 AVX-512 VBMI Base64 decode intrinsic. Oracle CVSS 3.1 8.1 (AC:H); Calif CVSS 4.0 9.2; Red Hat preliminary 9.8.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-114938"
+        }
+      ],
+      "official": [
+        {
+          "title": "Oracle Critical Security Patch Update - November 2026",
+          "url": "https://www.oracle.com/security-alerts/cspunov2026.html"
+        },
+        {
+          "title": "OpenJDK Vulnerability Advisory 2026-11-17",
+          "url": "https://openjdk.org/groups/vulnerability/advisories/2026-11-17"
+        },
+        {
+          "title": "CISA Alert: Critical Java Vulnerability Requires Immediate Patching",
+          "url": "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching"
+        },
+        {
+          "title": "Red Hat CVE-2026-114938",
+          "url": "https://access.redhat.com/security/cve/cve-2026-114938"
+        },
+        {
+          "title": "Amazon Corretto 27.0.1.1.4 changelog",
+          "url": "https://github.com/corretto/corretto-27/blob/27.0.1.1.4/CHANGELOG.md"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Calif: Java4Shell: Write once, RCE everywhere",
+          "url": "https://calif.io/java4shell/"
+        },
+        {
+          "title": "Tenable: Java4Shell (CVE-2026-114938) FAQ",
+          "url": "https://www.tenable.com/blog/java4shell-cve-2026-114938-frequently-asked-questions-about-openjdk-rce-vulnerability"
+        },
+        {
+          "title": "Datadog Security Labs: Java4Shell: Remote Code Execution in OpenJDK",
+          "url": "https://securitylabs.datadoghq.com/articles/java4shell-remote-code-execution-in-openjdk-cve-2026-114938/"
+        },
+        {
+          "title": "The Hacker News: Java4Shell Enables Pre-Auth RCE in Jira, Jenkins, Keycloak and More",
+          "url": "https://thehackernews.com/2026/11/java4shell-cve-2026-114938-enables-pre.html"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "ikow/java4shell-poc",
+          "url": "https://github.com/ikow/java4shell-poc",
+          "type": "exploit",
+          "stars": 141,
+          "note": "PoC trigger + scanner + Suricata/Sigma/ModSecurity rules; established researcher account (2013). Not cited by a vendor writeup; review before use."
+        },
+        {
+          "title": "theori-io/java4shell-runtime-patch-CVE-2026-114938",
+          "url": "https://github.com/theori-io/java4shell-runtime-patch-CVE-2026-114938",
+          "type": "scanner",
+          "stars": 18,
+          "note": "Runtime hot-patch from Theori (known security firm). Distributed via curl|sh from files.xint.io; inspect before running."
+        },
+        {
+          "title": "scadastrangelove/java4shell",
+          "url": "https://github.com/scadastrangelove/java4shell",
+          "type": "scanner",
+          "stars": 2,
+          "note": "CyberOK / SCADA StrangeLove defense tools: offline JVM/CPU inventory and source-review rules."
+        },
+        {
+          "title": "AweiMC/Java4Shell-Deterministic-DoS-PoC",
+          "url": "https://github.com/AweiMC/Java4Shell-Deterministic-DoS-PoC",
+          "type": "exploit",
+          "stars": 7,
+          "note": "DoS PoC from small, low-history account; unverified, treat with caution."
+        },
+        {
+          "title": "zake1god/java2shell",
+          "url": "https://github.com/zake1god/java2shell",
+          "type": "lab",
+          "stars": 3,
+          "note": "Local checker + vulnerable-vs-mitigated Docker lab; small account, unverified."
+        }
+      ]
+    },
+    {
+      "slug": "able2shell",
+      "name": "Able2Shell",
+      "aliases": [
+        "4EverAble2Shell",
+        "Agent2Shell"
+      ],
+      "family": "2shell",
+      "product": "N-able N-central (on-prem RMM appliance, agents and probes)",
+      "vendor": "N-able",
+      "disclosed": "2026-11-09",
+      "discoverer": "Independent researcher Sean Bales (GitHub: MSPNightmare); CVE-2026-125882 also credited to Nate Fair (Sprocket Security)",
+      "summary": "A researcher dumped 33 N-central bugs and exploit chains on GitHub as 'Able2Shell', giving unauthenticated attackers root on on-prem N-central servers and control of managed agents. After N-able's 10 Nov hotfix he released follow-up chains '4EverAble2Shell' (via the Legacy API and an Apache Axis 1.x flaw, CVE-2026-90436) and 'Agent2Shell'. N-able took hosted N-central offline and shipped HF2 and HF3 with 24 CVEs.",
+      "impact": "Unauthenticated root RCE on N-central servers and impersonation of appliances to push commands to every managed endpoint. 4EverAble2Shell was exploited within hours of the PoC; Huntback counted at least 21 compromised servers running XMRig miners.",
+      "affected": "N-central Appliance before 2026.4.1 HF3 (2026.4.0.31 and 2026.4.1.26 HF2 confirmed vulnerable); 4EverAble2Shell requires the Legacy API to be enabled and exposed.",
+      "fixed": "N-central 2026.4 HF2 (2026.4.1.26, 10 Nov) for the first CVE batch; 2026.4 HF3 (2026.4.1.39, 16 Nov) for the second; Agents/Probes 2026.4.1 HF3; Patch Management Engine 2.14.4.5829+.",
+      "mitigation": "Upgrade server, agents and probes to 2026.4.1 HF3 and disable or firewall the Legacy API. Rotate Automation Manager secrets and hunt for /dms/services/ServerUI requests, xvd.service units and miners.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2026-11-18"
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-90436",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Apache Axis 1.x SOAP-fault unsafe reflection (EOL component) used as 4EverAble2Shell initial access; in CISA KEV 2026-11-18. Also affects other Axis 1.x users.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-90436"
+        },
+        {
+          "id": "CVE-2026-125878",
+          "cvss": 8.7,
+          "cvss_version": "4.0",
+          "severity": "High",
+          "note": "OGNL injection leading to RCE (fixed HF2)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-125878"
+        },
+        {
+          "id": "CVE-2026-125879",
+          "cvss": 8.6,
+          "cvss_version": "4.0",
+          "severity": "High",
+          "note": "Local privilege escalation to root via nable-writable syslog-ng config (fixed HF2)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-125879"
+        },
+        {
+          "id": "CVE-2026-125882",
+          "cvss": 8.6,
+          "cvss_version": "4.0",
+          "severity": "High",
+          "note": "RCE via file repository upload path traversal (fixed HF2)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-125882"
+        },
+        {
+          "id": "CVE-2026-129272",
+          "cvss": 9.3,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "Predictable appliance passcode lets attackers impersonate appliances to agents (fixed HF3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-129272"
+        },
+        {
+          "id": "CVE-2026-129280",
+          "cvss": 9.3,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "ServerUI SOAP operations missing session/permission/customer-scope checks (fixed HF3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-129280"
+        },
+        {
+          "id": "CVE-2026-129286",
+          "cvss": 9.2,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "Path traversal in software update metadata leads to code execution (fixed HF3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-129286"
+        }
+      ],
+      "official": [
+        {
+          "title": "N-central 2026.4 HF2 release notes",
+          "url": "https://status.n-able.com/2026/11/10/n-central-2026-4-hf2-release-notes/"
+        },
+        {
+          "title": "N-central 2026.4 HF3 release notes",
+          "url": "https://status.n-able.com/2026/11/16/n-central-2026-4-hf3-release-notes/"
+        },
+        {
+          "title": "N-able status: Legacy API exploit advisory",
+          "url": "https://uptime.n-able.com/event/202609/"
+        },
+        {
+          "title": "N-able: How to disable Legacy API on on-prem N-central",
+          "url": "https://me.n-able.com/s/article/How-to-Disable-Legacy-API-settings-on-On-premise-N-central-servers"
+        },
+        {
+          "title": "Apache Axis CVE-2026-90436 announcement",
+          "url": "https://lists.apache.org/thread/8slf0j9gz35z56t0glt5h0ncwlbn4bdz"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Huntress: N-able Disables Cloud Services Following Disclosure of Able2Shell Exploit Chains",
+          "url": "https://www.huntress.com/blog/n-able-disables-cloud-services-following-disclosure-of-able2shell-exploit-chains"
+        },
+        {
+          "title": "BleepingComputer: New N-able 4EverAble2Shell zero-day exploited hours after PoC released",
+          "url": "https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/"
+        },
+        {
+          "title": "runZero: N-able N-central Able2Shell vulnerabilities",
+          "url": "https://www.runzero.com/blog/n-able-n-central/"
+        },
+        {
+          "title": "SOCRadar: 4EverAble2Shell at a glance",
+          "url": "https://socradar.io/blog/4everable2shell-at-a-glance/"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "MSPNightmare/CVEs",
+          "url": "https://github.com/MSPNightmare/CVEs/tree/main/0-Days/N-Central%20N-Able",
+          "type": "exploit",
+          "stars": 82,
+          "note": "Original researcher repo (formerly Oracle-Security/CVEs) with Able2Shell, 4EverAble2Shell, Agent2Shell and per-CVE folders; linked by runZero."
+        },
+        {
+          "title": "dinosn/axis-cve-2026-90436-lab-poc",
+          "url": "https://github.com/dinosn/axis-cve-2026-90436-lab-poc",
+          "type": "lab",
+          "stars": 2,
+          "note": "Docker lab + PoC for the Apache Axis stage; established researcher account."
+        }
+      ]
+    },
+    {
+      "slug": "kindarails2shell",
+      "name": "KindaRails2Shell",
+      "aliases": [
+        "Rails2Shell"
+      ],
+      "family": "2shell",
+      "product": "Ruby on Rails (Active Storage with libvips)",
+      "vendor": "Rails",
+      "disclosed": "2026-07-29",
+      "discoverer": "André Baptista, Bruno Mendes and Rafael Castilho (Ethiack); independently RyotaK (GMO Flatt Security)",
+      "summary": "Rails Active Storage never told libvips to block its unsafe loaders, so a crafted image upload can make libvips read arbitrary files on the server. Leaking secrets like secret_key_base can then be escalated to remote code execution. Ethiack named it 'Kinda' because the chain needs a few common-but-not-universal conditions.",
+      "impact": "Unauthenticated arbitrary file read as the Rails process, leading to secret theft and possible RCE / lateral movement.",
+      "affected": "Rails 7.0.0-7.2.3.1, 8.0.0-8.0.5, 8.1.0-8.1.3 using Active Storage with the Vips processor and accepting untrusted uploads; Rails 6.0-6.1 in non-default Vips configs. ImageMagick backend not affected.",
+      "fixed": "Rails 7.2.3.2, 8.0.5.1, 8.1.3.1 plus libvips 8.13+ (and ruby-vips 2.2.1+).",
+      "mitigation": "Upgrade Rails and libvips, then rotate secret_key_base and other app secrets. Stopgap: set VIPS_BLOCK_UNTRUSTED or call Vips.block_untrusted(true) on libvips 8.13+, and run the rails-forensics tool to check for abuse.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-66066",
+          "cvss": 9.5,
+          "cvss_version": "4.0",
+          "severity": "Critical",
+          "note": "Active Storage does not disable unsafe libvips operations, allowing arbitrary file read via crafted upload (GHSA-xr9x-r78c-5hrm)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-66066"
+        }
+      ],
+      "official": [
+        {
+          "title": "Rails security advisory GHSA-xr9x-r78c-5hrm",
+          "url": "https://github.com/rails/rails/security/advisories/GHSA-xr9x-r78c-5hrm"
+        },
+        {
+          "title": "rails/rails-forensics-CVE-2026-66066",
+          "url": "https://github.com/rails/rails-forensics-CVE-2026-66066"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Ethiack: KindaRails2Shell - Critical RCE in Rails via Active Storage",
+          "url": "https://ethiack.com/info-hub/research/kindarails2shell-rails-rce-cve-2026-66066"
+        },
+        {
+          "title": "Rapid7: KindaRails2Shell CVE-2026-66066",
+          "url": "https://rapid7.com/blog/post/etr-kindarails2shell-cve-2026-66066-critical-arbitrary-file-read-and-possible-remote-code-execution-in-ruby-on-rails"
+        },
+        {
+          "title": "Help Net Security: KindaRails2Shell threatens Ruby on Rails apps",
+          "url": "https://www.helpnetsecurity.com/2026/08/03/kindarails2shell-cve-2026-66066-vulnerability/"
+        },
+        {
+          "title": "GMO Flatt Security writeup",
+          "url": "https://blog.flatt.tech/entry/kindarails2shell_rails"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "rapid7/metasploit-framework#21733",
+          "url": "https://github.com/rapid7/metasploit-framework/pull/21733",
+          "type": "exploit",
+          "stars": null,
+          "note": "Metasploit module PR cited by Rapid7 (PR closed 2026-08-25; check whether merged under another PR)."
+        },
+        {
+          "title": "rails/rails-forensics-CVE-2026-66066",
+          "url": "https://github.com/rails/rails-forensics-CVE-2026-66066",
+          "type": "scanner",
+          "stars": 30,
+          "note": "Official Rails forensic tooling to detect exploitation."
+        },
+        {
+          "title": "0xsha/KindaRails2Shell",
+          "url": "https://github.com/0xsha/KindaRails2Shell",
+          "type": "lab",
+          "stars": 5,
+          "note": "File read/RCE PoC, scanner and lab from researcher who also published wp2shell tooling."
+        },
+        {
+          "title": "Zer0SumGam3/CVE-2026-66066-POC",
+          "url": "https://github.com/Zer0SumGam3/CVE-2026-66066-POC",
+          "type": "exploit",
+          "stars": 24,
+          "note": "CAUTION: account created July 2026, repo published same day as advisory; unverified."
+        }
+      ]
+    },
+    {
+      "slug": "fortinet2shell",
+      "name": "Fortinet2Shell",
+      "aliases": [],
+      "family": "2shell",
+      "product": "Fortinet FortiClient (Windows, Mac, Windows PAM)",
+      "vendor": "Fortinet",
+      "disclosed": "2026-11-10",
+      "discoverer": "Kevin Joensen (Baldur Security)",
+      "summary": "FortiClient runs a local API service that trusts requests from web pages because of a CORS / origin-validation flaw. A user who simply visits a malicious website can have code executed on their machine through FortiClient. The researcher says it works reliably when FortiPAM is enabled.",
+      "impact": "Remote code/command execution on endpoints after a user visits an attacker-controlled web page.",
+      "affected": "FortiClient Mac 7.4.0-7.4.7; FortiClient Windows 7.4.0-7.4.7 and 7.2.0-7.2.14; FortiClient Windows PAM 7.4.7 and 7.2.14. 8.0 and FortiClient Mac 7.2 not affected.",
+      "fixed": "7.4.8 or later; 7.2.15 or later (Windows / PAM 7.2).",
+      "mitigation": "Upgrade FortiClient; Fortinet offers no virtual patch. Find exposed Windows installs by checking for a FortiVRS.exe service listening on TCP 9191 and patch those first.",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-121529",
+          "cvss": 9.6,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Origin validation error (CWE-346) in FortiClient local API; NVD/Fortinet 9.6, some reports cite 9.1",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-121529"
+        }
+      ],
+      "official": [
+        {
+          "title": "Fortinet PSIRT FG-IR-26-194",
+          "url": "https://fortiguard.fortinet.com/psirt/FG-IR-26-194"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "SecurityWeek: Fortinet Patches Nearly 100 Vulnerabilities",
+          "url": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/"
+        },
+        {
+          "title": "GBHackers: Fortinet2Shell Vulnerability Lets Hackers Execute Code on FortiClient Systems",
+          "url": "https://gbhackers.com/fortinet2shell-vulnerability/"
+        },
+        {
+          "title": "iThome coverage",
+          "url": "https://www.ithome.com.tw/news/180464"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "googlesky/Fortinet2Shell",
+          "url": "https://github.com/googlesky/Fortinet2Shell",
+          "type": "lab",
+          "stars": 0,
+          "note": "Containerised PoC; not from the discoverer, unverified."
+        }
+      ]
+    }
+  ]
+}
