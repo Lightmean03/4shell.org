@@ -8,6 +8,7 @@
       "family": "4shell",
       "product": "Apache Log4j 2 (log4j-core)",
       "vendor": "Apache Software Foundation",
+      "ecosystem": "Java",
       "disclosed": "2021-12-09",
       "discoverer": "Chen Zhaojun, Alibaba Cloud Security Team",
       "summary": "Log4j 2 resolved ${jndi:...} lookups inside logged strings, so any attacker-controlled text that got logged (a User-Agent header, a username, a chat message) could make the server fetch and run a Java class from an attacker's LDAP or RMI server. Because Log4j is embedded in a huge number of Java products and services, it was one of the most widespread critical vulnerabilities ever disclosed. Several follow-up CVEs fixed incomplete patches and related lookup flaws.",
@@ -133,7 +134,74 @@
           "stars": 1559,
           "note": "Google's filesystem/JAR scanner; archived"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "massive",
+        "headline": "Within days of disclosure attackers were probing nearly half of the world's corporate networks, and nation-state APTs, the Conti ransomware gang and cryptominers were still using Log4Shell to break in years later.",
+        "exposure": "Google counted 35,863 Maven Central artifacts (over 8% of the repository) depending on vulnerable Log4j, and the CSRB said the flaw touched 'virtually every networked organization'.",
+        "actors": [
+          "Conti ransomware",
+          "Khonsari",
+          "Iranian government-sponsored APT (FCEB intrusion)",
+          "PHOSPHORUS (Iran)",
+          "HAFNIUM (China)",
+          "Lazarus / Andariel (Operation Blacksmith)",
+          "cryptomining botnets"
+        ],
+        "ransomware": true,
+        "events": [
+          {
+            "date": "2021-12-10",
+            "text": "CISA added CVE-2021-44228 to the Known Exploited Vulnerabilities catalog, with a December 24 federal patch deadline; the catalog flags it as used in ransomware campaigns.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          },
+          {
+            "date": "2021-12-11",
+            "text": "Microsoft reported mass scanning, coin miners and Cobalt Strike, and later added nation-state groups including PHOSPHORUS (Iran) and HAFNIUM (China) to its list of actors exploiting the flaw.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2021/12/11/guidance-for-preventing-detecting-and-hunting-for-cve-2021-44228-log4j-2-exploitation/"
+          },
+          {
+            "date": "2021-12-13",
+            "text": "Check Point said it had blocked more than 4.3 million exploitation attempts, 46% of them from known malicious groups, and had seen attempted exploits against over 48% of corporate networks worldwide.",
+            "url": "https://blog.checkpoint.com/?p=27509"
+          },
+          {
+            "date": "2021-12-17",
+            "text": "CISA issued Emergency Directive 22-02, ordering federal civilian agencies to patch or mitigate Log4j on their internet-facing systems.",
+            "url": "https://www.cisa.gov/emergency-directive-22-02"
+          },
+          {
+            "date": "2021-12-17",
+            "text": "AdvIntel reported that the Conti ransomware gang was using Log4Shell to move laterally to VMware vCenter servers.",
+            "url": "https://securityaffairs.com/125741/cyber-crime/conti-ransomware-exploit-log4shell.html"
+          },
+          {
+            "date": "2021-12-20",
+            "text": "Belgium's Ministry of Defence confirmed that a Log4j exploit had breached its network and paralyzed some of its activities for several days, the first NATO defence ministry publicly hit through the flaw.",
+            "url": "https://www.bankinfosecurity.com/log4j-belgian-defense-ministry-reports-was-paralyzed-a-18163"
+          },
+          {
+            "date": "2022-01-04",
+            "text": "The FTC warned that it would take legal action against companies that failed to remediate Log4j, citing its $700M Equifax settlement.",
+            "url": "https://www.ftc.gov/policy/advocacy-research/tech-at-ftc/2022/01/ftc-warns-companies-remediate-log4j-security-vulnerability"
+          },
+          {
+            "date": "2022-07-14",
+            "text": "The Cyber Safety Review Board's first report called Log4j an 'endemic vulnerability' likely to persist for a decade or more, and noted that one cabinet department had spent 33,000 hours on its response.",
+            "url": "https://www.csoonline.com/article/3667488/cyber-safety-review-board-warns-that-log4j-event-is-an-endemic-vulnerability.html"
+          },
+          {
+            "date": "2022-11-16",
+            "text": "CISA and the FBI disclosed that Iranian government-sponsored actors had used Log4Shell in an unpatched VMware Horizon server to breach a federal civilian agency, where they deployed XMRig, Mimikatz and Ngrok.",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-320a"
+          },
+          {
+            "date": "2023-12-11",
+            "text": "Cisco Talos reported that North Korea's Lazarus/Andariel was still exploiting Log4Shell in VMware Horizon two years on, using it to deploy the new NineRAT and DLRAT malware ('Operation Blacksmith').",
+            "url": "https://thehackernews.com/2023/12/lazarus-group-using-log4j-exploits-to.html"
+          }
+        ]
+      }
     },
     {
       "slug": "spring4shell",
@@ -144,6 +212,7 @@
       "family": "4shell",
       "product": "Spring Framework (spring-webmvc / spring-webflux)",
       "vendor": "VMware / Spring",
+      "ecosystem": "Java",
       "disclosed": "2022-03-31",
       "discoverer": "codeplutos and meizjm3i of AntGroup FG Security Lab (secondary report from Praetorian)",
       "summary": "Spring's data binding let request parameters reach class.module.classLoader on JDK 9+. On Tomcat, attackers could use this to rewrite the access-log settings and drop a JSP web shell. It bypassed the 2010 fix for CVE-2010-1622, and details and a PoC leaked publicly before the patch.",
@@ -257,7 +326,43 @@
           "stars": 19,
           "note": "Vulnerable Spring Cloud Function app for CVE-2022-22963 (low star count)"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "moderate",
+        "headline": "Spring4Shell caused a frantic first weekend of exploit attempts and was weaponized by the Mirai botnet, but its non-default requirements (JDK 9+, Tomcat, WAR deployment) meant no Log4Shell-scale wave of breaches followed.",
+        "exposure": "Check Point estimated that about 16% of organizations worldwide were hit by exploitation attempts in the first four days, with roughly 37,000 attempts over the first weekend.",
+        "actors": [
+          "Mirai botnet"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2022-03-31",
+            "text": "Spring confirmed the RCE in Spring Framework (CVE-2022-22965) and released 5.3.18 and 5.2.20, after a proof of concept had already leaked.",
+            "url": "https://spring.io/blog/2022/03/31/spring-framework-rce-early-announcement"
+          },
+          {
+            "date": "2022-04-03",
+            "text": "Check Point counted about 37,000 exploitation attempts over the first weekend and estimated that 16% of organizations worldwide were targeted within four days, with software vendors the most affected sector.",
+            "url": "https://blog.checkpoint.com/security/16-of-organizations-worldwide-impacted-by-spring4shell-zero-day-vulnerability-exploitation-attempts-since-outbreak/"
+          },
+          {
+            "date": "2022-04-04",
+            "text": "CISA added CVE-2022-22965 to the Known Exploited Vulnerabilities catalog on evidence of active exploitation.",
+            "url": "https://www.helpnetsecurity.com/2022/04/05/spring4shell-exploited/"
+          },
+          {
+            "date": "2022-04-04",
+            "text": "Microsoft published guidance on the flaw and reported a low volume of exploitation attempts across its cloud services.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/"
+          },
+          {
+            "date": "2022-04-08",
+            "text": "Trend Micro reported the Mirai botnet weaponizing Spring4Shell to write JSP webshells and download Mirai binaries for several CPU architectures.",
+            "url": "https://www.trendmicro.com/en/research/22/d/cve-2022-22965-analyzing-the-exploitation-of-spring4shell-vulner.html"
+          }
+        ]
+      }
     },
     {
       "slug": "text4shell",
@@ -266,6 +371,7 @@
       "family": "4shell",
       "product": "Apache Commons Text",
       "vendor": "Apache Software Foundation",
+      "ecosystem": "Java",
       "disclosed": "2022-10-13",
       "discoverer": "Alvaro Munoz (GitHub Security Lab)",
       "summary": "Apache Commons Text's StringSubstitutor turned on the 'script', 'dns' and 'url' lookups by default. If untrusted input reached a default interpolator, a string like ${script:javascript:...} could run code on the server. The bug class resembles Log4Shell, but real-world exposure was much smaller because applications rarely pass untrusted input to these APIs.",
@@ -341,7 +447,41 @@
           "stars": 189,
           "note": "Burp Suite active-scan extension from Silent Signal"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "limited",
+        "headline": "Text4Shell got the '4Shell' branding without the outbreak: honeypots logged scanning from a few dozen IPs, but no confirmed compromises followed because few apps pass untrusted input to StringSubstitutor.",
+        "exposure": null,
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2022-10-13",
+            "text": "Apache disclosed CVE-2022-42889 in Commons Text 1.5 through 1.9 and fixed it in 1.10.0 by turning off the dangerous script, dns and url interpolators by default.",
+            "url": "https://www.rapid7.com/blog/post/2022/10/17/cve-2022-42889-keep-calm-and-stop-saying-4shell/"
+          },
+          {
+            "date": "2022-10-17",
+            "text": "Rapid7 told defenders to 'keep calm', saying that unlike Log4Shell the flaw is only exploitable when applications pass untrusted input to a rarely used API.",
+            "url": "https://www.rapid7.com/blog/post/2022/10/17/cve-2022-42889-keep-calm-and-stop-saying-4shell/"
+          },
+          {
+            "date": "2022-10-18",
+            "text": "Wordfence saw exploit attempts across its network of about 4 million sites; most were DNS-callback scans for vulnerable hosts, some likely from researchers or bug bounty hunters.",
+            "url": "https://www.wordfence.com/blog/2022/10/threat-advisory-monitoring-cve-2022-42889-text4shell-exploit-attempts/"
+          },
+          {
+            "date": "2022-10-20",
+            "text": "Press coverage put the attempts at roughly 40 attacking IP addresses and judged the bug unlikely to be exploited as widely as Log4Shell.",
+            "url": "https://www.securityweek.com/text4shell-vulnerability-exploitation-attempts-started-soon-after-disclosure/"
+          },
+          {
+            "date": "2026-11",
+            "text": "Four years on, CVE-2022-42889 has never been added to CISA's Known Exploited Vulnerabilities catalog.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          }
+        ]
+      }
     },
     {
       "slug": "react2shell",
@@ -350,6 +490,7 @@
       "family": "2shell",
       "product": "React Server Components (react-server-dom-webpack / -parcel / -turbopack) and frameworks built on them, notably Next.js App Router",
       "vendor": "Meta (React) / Vercel (Next.js)",
+      "ecosystem": "JavaScript",
       "disclosed": "2025-12-03",
       "discoverer": "Lachlan Davidson (reported to Meta Bug Bounty on 2025-11-29)",
       "summary": "React Server Components unsafely deserialized 'Flight' protocol payloads sent to Server Function endpoints. One crafted HTTP request could therefore run code on the server, with no login and often in a default Next.js App Router app. Public exploits appeared within a day or two, and CISA added it to KEV on 2025-12-05 after China-nexus groups began exploiting it. Follow-up research found DoS and source-code-exposure bugs in the same code, none of them RCE.",
@@ -492,7 +633,63 @@
           "stars": 403,
           "note": "Vercel's official CLI that detects and bumps vulnerable Next.js versions (npx fix-react2shell-next)"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "major",
+        "headline": "China-nexus state hackers exploited React2Shell within hours, and within weeks it had become a vector for ransomware, cryptominers and botnets across tens of thousands of exposed React and Next.js servers.",
+        "exposure": "Shadowserver counted 77,664 vulnerable IP addresses (about 23,700 in the US), and Wiz found vulnerable React or Next.js versions in up to 39% of the cloud environments it monitors.",
+        "actors": [
+          "Earth Lamia (UNC5454)",
+          "Jackpot Panda",
+          "UNC5174 / CL-STA-1015",
+          "UNC6600",
+          "UNC6586",
+          "UNC6603",
+          "UNC6595",
+          "Iran-nexus actors",
+          "Weaxor ransomware",
+          "RondoDox botnet",
+          "XMRig cryptominers"
+        ],
+        "ransomware": true,
+        "events": [
+          {
+            "date": "2025-12-03",
+            "text": "React disclosed the CVSS 10.0 pre-auth RCE in the React Server Components Flight protocol, which also affects Next.js and other RSC frameworks; Wiz found vulnerable versions in up to 39% of cloud environments.",
+            "url": "https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182"
+          },
+          {
+            "date": "2025-12-05",
+            "text": "AWS reported exploitation within hours of disclosure from infrastructure tied to the China state-nexus groups Earth Lamia and Jackpot Panda.",
+            "url": "https://therecord.media/chinese-hackers-exploiting-react2shell-vulnerability-amazon"
+          },
+          {
+            "date": "2025-12-05",
+            "text": "CISA added CVE-2025-55182 to the Known Exploited Vulnerabilities catalog; the catalog now flags it as used in ransomware campaigns.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          },
+          {
+            "date": "2025-12-05",
+            "text": "S-RM saw React2Shell used as initial access for Weaxor ransomware (a suspected Mallox rebrand), which encrypted the server less than a minute after the break-in.",
+            "url": "https://www.s-rminform.com/latest-thinking/react2shell-used-as-initial-access-vector-for-weaxor-ransomware-deployment"
+          },
+          {
+            "date": "2025-12-06",
+            "text": "Shadowserver counted 77,664 vulnerable IPs, Palo Alto Networks said more than 30 organizations were already compromised (including by the MSS-linked UNC5174), and GreyNoise saw 181 attacking IPs in 24 hours.",
+            "url": "https://www.bleepingcomputer.com/news/security/react2shell-flaw-exploited-to-breach-30-orgs-77k-ip-addresses-vulnerable"
+          },
+          {
+            "date": "2025-12-12",
+            "text": "Google Threat Intelligence Group tied exploitation to several China-nexus espionage clusters (UNC6600, UNC6586, UNC6603, UNC6595) deploying MINOCAT, SNOWLIGHT, HISONIC and ANGRYREBEL, as well as Iran-nexus actors and XMRig miners.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/threat-actors-exploit-react2shell-cve-2025-55182"
+          },
+          {
+            "date": "2026-01",
+            "text": "The RondoDox botnet added React2Shell to its arsenal and used it to drop cryptominers and Mirai-based payloads on Next.js servers.",
+            "url": "https://www.securityweek.com/rondodox-botnet-exploiting-react2shell-vulnerability/"
+          }
+        ]
+      }
     },
     {
       "slug": "php2shell",
@@ -501,6 +698,7 @@
       "family": "2shell",
       "product": "PHP",
       "vendor": "The PHP Group",
+      "ecosystem": "PHP",
       "disclosed": "2026-10-21",
       "discoverer": "Calif Research (Ryan Austin), Wiz Research (Sagi Tzadik et al.), and OpenAI; GHSA also credits reporter tomash-areion",
       "summary": "Two memory-safety bugs in PHP's core request lifecycle. One leaves request memory uninitialized when an out-of-memory error aborts a request, and the other leaves global state pointing at freed request memory. Either can be triggered with crafted multipart or session-upload-progress requests and turned into unauthenticated remote code execution in the PHP worker.",
@@ -614,7 +812,44 @@
           "stars": 16,
           "note": "Zeek/Suricata network detections from Corelight"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "moderate",
+        "headline": "Millions of scan and exploit attempts hit PHP after disclosure, but only one honeypot RCE has been publicly confirmed; that was enough to put PHP2Shell in KEV.",
+        "exposure": "VirusTotal estimates more than 5.1 million exposed PHP hosts (about 3.8 million with at least one attackable port open), and Bitsight counts nearly 37 million internet-facing systems running PHP or related software. Wiz saw exposed vulnerable machines fall about 67% within days.",
+        "actors": [
+          "Suspected Lazarus-ecosystem (DPRK) scanning campaign per CYFIRMA (moderate confidence)",
+          "Unattributed opportunistic scanners using public exploit kits"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-10-21",
+            "text": "PHP ships fixes (8.5.12, 8.4.27, 8.3.36, 8.2.35). Amazon later said it had seen targeting four days before the release, and Cloudflare, watchTowr and others logged attempts they judged unsuccessful.",
+            "url": "https://bleepingcomputer.com/news/security/php2shell-security-flaws-now-sucessfully-exploited-in-the-wild"
+          },
+          {
+            "date": "2026-10-24",
+            "text": "Perplexity's Adel Karimi records successful RCE on an Apache mod_php 8.4.26 honeypot, with shell commands fetching payloads from 162.35.99.94. Expel's Marcus Hutchins confirms the finding.",
+            "url": "https://bleepingcomputer.com/news/security/php2shell-security-flaws-now-sucessfully-exploited-in-the-wild"
+          },
+          {
+            "date": "2026-10-25",
+            "text": "Unit 42 links a European government intrusion to PHP2Shell, then retracts the link. Cloudflare reports millions of exploitation attempts, and CYFIRMA reports suspected DPRK probing of 216 hosts from 21 compromised nodes.",
+            "url": "https://thehackernews.com/2026/10/php2shell-exploitation-hits-government.html"
+          },
+          {
+            "date": "2026-10-26",
+            "text": "CISA adds CVE-2026-109618 and CVE-2026-109619 to KEV with an October 29 federal deadline.",
+            "url": "https://securityonline.info/php2shell-cisa-kev-confirmed-rce-dprk/"
+          },
+          {
+            "date": "2026-10-27",
+            "text": "Wiz reports no successful end-to-end exploitation in its telemetry and no generally working public PoC. One week after disclosure, fewer than 53% of initially affected organizations were still vulnerable.",
+            "url": "https://wiz.io/blog/php2shell-exploitation-so-far"
+          }
+        ]
+      }
     },
     {
       "slug": "node2shell",
@@ -627,6 +862,7 @@
       "family": "2shell",
       "product": "Google Brotli decoder (bundled in Node.js, Python Brotli/brotlicffi, .NET, Bun, Envoy, and others)",
       "vendor": "Google",
+      "ecosystem": "JavaScript",
       "disclosed": "2026-10-21",
       "discoverer": "OpenAI Codex Security (Khai Tran and Sylvie Mayer), per the Node.js advisory; Imperva Red Team (Ron Masas) did the RCE research",
       "summary": "An out-of-bounds write in Google's Brotli decoder. An invalid block switch was reported as 'needs more input' instead of a format error, so the streaming decoder kept writing past an 8-byte internal buffer. Any software that decompresses attacker-supplied Brotli data, such as HTTP request or response bodies with Content-Encoding: br, can crash, leak memory or, on some builds, run attacker code.",
@@ -729,7 +965,43 @@
           "stars": 7,
           "note": "Crash analysis; argues RCE is structurally unreachable on Node, which contradicts Imperva and ELLIO"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "limited",
+        "headline": "CISA put the Brotli decoder bug in KEV within a week, but the only in-the-wild attempt with public detail used a broken exploit chain, and no compromises have been confirmed.",
+        "exposure": null,
+        "actors": [
+          "Unattributed mass-exploitation operator at 94.154.43.7 (also seen sending PHP2Shell exploits, per ELLIO)"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-10-21",
+            "text": "Node.js discloses CVE-2026-111497 and patches 22.x, 24.x and 26.x. The upstream Brotli fix had sat publicly in the repo since February 27 without an advisory.",
+            "url": "https://helpnetsecurity.com/2026/10/27/node2shell-broccoli2shell-vulnerability-cve-2026-111497"
+          },
+          {
+            "date": "2026-10-25",
+            "text": "Microsoft ships out-of-band .NET updates for the Brotli flaw, and ELLIO sees a 'node2shell-check' scanner sweeping for hosts that decompress Brotli request bodies.",
+            "url": "https://www.csoonline.com/article/4241027/node2shell-puts-microsoft-and-node-js-on-brotli-patch-duty.html"
+          },
+          {
+            "date": "2026-10-26",
+            "text": "ELLIO sensors record a 23 MB exploit request from 94.154.43.7 aimed at Node.js 24.22.0. In ELLIO's tests the chain failed in all 50 attempts.",
+            "url": "https://ellio.tech/en/blog/node2shell-cve-2026-111497-rce-on-stock-nodejs-builds/"
+          },
+          {
+            "date": "2026-10-27",
+            "text": "CISA adds CVE-2026-111497 to KEV with a November 10 federal deadline and advises blocking or disabling Brotli decoding until patched.",
+            "url": "https://bleepingcomputer.com/news/security/cisa-warns-of-hackers-now-exploiting-critical-node2shell-flaw"
+          },
+          {
+            "date": "2026-10-28",
+            "text": "HKCERT issues a bulletin listing the Brotli RCE as exploited in the wild.",
+            "url": "https://www.hkcert.org/security-bulletin/google-brotli-remote-code-execution-vulnerability_20261028"
+          }
+        ]
+      }
     },
     {
       "slug": "wp2shell",
@@ -738,6 +1010,7 @@
       "family": "2shell",
       "product": "WordPress core",
       "vendor": "WordPress",
+      "ecosystem": "CMS",
       "disclosed": "2026-07-17",
       "discoverer": "Adam Kues (Assetnote / Searchlight Cyber); the CVE-2026-60137 SQLi was also independently reported by TF1T, dtro and haongo",
       "summary": "wp2shell is a pre-authentication remote code execution chain in a stock WordPress install with no plugins. A route-confusion bug in the REST API batch endpoint (/wp-json/batch/v1) lets an anonymous attacker reach a SQL injection in WP_Query's author__not_in parameter. From there the attacker takes over an admin account and uploads a malicious plugin to run code.",
@@ -847,7 +1120,50 @@
           "stars": 5,
           "note": "Blackbox, non-intrusive detector"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "major",
+        "headline": "A public exploit for the first pre-auth RCE in WordPress core in years drew tens of thousands of attack attempts within days and landed both CVEs in CISA's KEV catalog, but forced auto-updates appear to have prevented a mass compromise.",
+        "exposure": "Wiz found that 60% of organizations running WordPress had a vulnerable instance at disclosure and 25% exposed one to the internet, falling to 50% and 10% within 24 hours.",
+        "actors": [
+          "Unattributed multiple actors",
+          "Overlord RAT operator",
+          "CMSmap webshell"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-07-17",
+            "text": "Searchlight Cyber (Assetnote) disclosed wp2shell, a no-plugin, no-auth RCE chain in WordPress 6.9 to 7.0.1; WordPress shipped 6.9.5 and 7.0.2 and pushed forced auto-updates.",
+            "url": "https://slcyber.io/research/wp2shell-pre-authentication-rce-in-wordpress-core"
+          },
+          {
+            "date": "2026-07-18",
+            "text": "With public PoCs already out, watchTowr honeypots began logging exploitation within about a day and later recorded tens of thousands of attempts and more than 100 backdoor admin accounts created by different actors.",
+            "url": "https://thehackernews.com/2026/07/wordpress-wp2shell-exploitation-grows.html"
+          },
+          {
+            "date": "2026-07-20",
+            "text": "Wiz confirmed successful exploitation by multiple actors against self-hosted WordPress, with malicious plugin uploads and webshells including a 150KB tool disguised as the 'CMSmap' plugin.",
+            "url": "https://wiz.io/blog/wp2shell-cve-2026-63030-cve-2026-60137"
+          },
+          {
+            "date": "2026-07-21",
+            "text": "CISA added CVE-2026-63030 and CVE-2026-60137 to the Known Exploited Vulnerabilities catalog, setting federal deadlines of July 24 and August 4.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          },
+          {
+            "date": "2026-07-21",
+            "text": "KEVIntel tracked broad scanning, and one actor was seen repeatedly trying to install the Go-based Overlord RAT.",
+            "url": "https://thehackernews.com/2026/07/wordpress-wp2shell-exploitation-grows.html"
+          },
+          {
+            "date": "2026-07",
+            "text": "Wordfence said it had not seen the surge in compromised sites and cleanup requests that usually follows a vulnerability this widespread.",
+            "url": "https://www.wordfence.com/blog/2026/07/wp2shell-wordpress-exploit-technical-analysis-and-real-attack-data/"
+          }
+        ]
+      }
     },
     {
       "slug": "plex2shell",
@@ -856,6 +1172,7 @@
       "family": "2shell",
       "product": "Plex Media Server",
       "vendor": "Plex",
+      "ecosystem": "Media server",
       "disclosed": "2026-10-16",
       "discoverer": "Zach Main (zmain / code-zm)",
       "summary": "Plex2Shell chains four Plex Media Server bugs into unauthenticated code execution. An SSRF in /player/timeline accepts any X-Plex-Token value. The attacker uses it to reach the loopback-only plugin API and steal the owner's admin token. With that token, the attacker writes a malicious shared library into the Codecs directory, and Plex loads it unsigned and runs it as the plex user. The chain was exploited from 2026-10-17, one day after the PoC was published, to install XMRig miners and proxyware.",
@@ -962,7 +1279,54 @@
           "stars": 1,
           "note": "Third-party mirror/copy of the PoC (gmh5225 is a known mirror aggregator); prefer the code-zm original"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "major",
+        "headline": "Within a day of the PoC, attackers were turning home and NAS-hosted Plex servers into Monero miners and residential proxies, and Plex called the flaws \"actively and widely exploited.\"",
+        "exposure": "Shadowserver counted more than 36,000 internet-exposed, unpatched Plex Media Server instances in early September 2026, weeks before the chain went public.",
+        "actors": [
+          "Unattributed opportunistic miners/proxyjackers (payloads 'x12345', 'mylovelyminer', 'myawesomeproxy')",
+          "Infrastructure overlap with AISURU DDoS/proxyware botnet (proxystream[.]st, per Bitsight)"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-09-01",
+            "text": "Shadowserver reports 36,000+ internet-accessible Plex Media Server instances still unpatched after the August 3-4 fix in 1.43.3.10861.",
+            "url": "https://fieldeffect.com/blog/active-exploitation-plex2shell-vulnerabilities"
+          },
+          {
+            "date": "2026-10-16",
+            "text": "Researcher Zach Main publishes the Plex2Shell write-up and proof-of-concept chaining four CVEs into unauthenticated RCE.",
+            "url": "https://thehackernews.com/2026/10/hackers-exploit-plex2shell-flaws-to.html"
+          },
+          {
+            "date": "2026-10-17",
+            "text": "A Plex honeypot is exploited from three IPs and receives an XMRig cryptominer and, later that day, a Linux proxy backdoor served from 217.60.194.116.",
+            "url": "https://securityonline.info/plex2shell-plex-media-server-exploited/"
+          },
+          {
+            "date": "2026-10-19",
+            "text": "Researchers link the proxy payload's domain to infrastructure Bitsight tied to the AISURU DDoS/proxyware botnet, and Reddit users report 'mylovelyminer' infections.",
+            "url": "https://thehackernews.com/2026/10/hackers-exploit-plex2shell-flaws-to.html"
+          },
+          {
+            "date": "2026-10-19",
+            "text": "Plex updates its advisory to say the flaws are \"actively and widely exploited\" and that compromised servers ran cryptominers and proxy software.",
+            "url": "https://cipherssecurity.com/qnap-plex2shell-nas-attacks/"
+          },
+          {
+            "date": "2026-10-20",
+            "text": "CISA adds all four Plex2Shell CVEs to the KEV catalog (catalog date Oct 20).",
+            "url": "https://www.bleepingcomputer.com/news/security/cisa-hackers-chain-plex-flaws-in-plex2shell-attacks-to-breach-servers/"
+          },
+          {
+            "date": "2026-11-06",
+            "text": "QNAP warns that Plex Media Server installs on its NAS devices appear compromised via Plex2Shell and ships a Malware Remover detection (MR2104).",
+            "url": "https://cipherssecurity.com/qnap-plex2shell-nas-attacks/"
+          }
+        ]
+      }
     },
     {
       "slug": "nginx2shell",
@@ -973,6 +1337,7 @@
       "family": "2shell",
       "product": "NGINX Open Source / NGINX Plus (HTTP/2)",
       "vendor": "F5 / NGINX",
+      "ecosystem": "Web server",
       "disclosed": "2026-11-18",
       "discoverer": "Found independently by Wiz Research (Nir Ohfeld, Tomer Schwartz), Ikotas Labs, Metnir, Rapid7 (Stephen Fewer) and Xint",
       "summary": "CVE-2026-123007 is an integer underflow in NGINX's HTTP/2 flow control. Cancelling a stream with data still queued returns unused window back to send_window without capping it at the maximum. A later unsigned bounds check then wraps, and a negative length reaches an out-of-bounds heap copy in the TLS send path, which can lead to remote code execution in the worker process. It shipped together with a second HTTP/2 RCE-class bug, CVE-2026-123633 (a use-after-free), and three more memory-safety fixes in nginx 1.31.9 / 1.30.7.",
@@ -1061,7 +1426,36 @@
           "stars": 0,
           "note": "Read-only POSIX sh audit; brand new and unvetted"
         }
-      ]
+      ],
+      "real_world": {
+        "level": "none-yet",
+        "headline": "Disclosed the same day as the patches, with exploit code withheld, so the NGINX2Root/NGINX2Shell HTTP/2 RCEs have no known exploitation yet, but the potential blast radius is internet-scale.",
+        "exposure": "Xint counted about 56.7 million nginx hosts on Shodan (Nov 10). Of the 11.94 million showing a version, 98.9% fell in the CVE-2026-123007 range, though HTTP/2 must be on and backports aren't visible.",
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-10-21",
+            "text": "Wiz reports the HTTP/2 use-after-free (CVE-2026-123633) to F5, which says another team had already reported it. Five teams independently found the nginx bugs.",
+            "url": "https://watchtowr.com/intelligence/nginx-nginx2root-cve-2026-123633-faq/"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "nginx 1.30.7 and 1.31.9 fix five RCE-class CVEs. Xint brands them NGINX2Root, withholds full exploits, and warns of an unpatched Linux SCTP bug that chains to root.",
+            "url": "https://xint.io/blog/nginx2root-remote-code-execution"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "watchTowr lists exploitation as 'None reported', and the CVEs are not in CISA's KEV catalog.",
+            "url": "https://watchtowr.com/intelligence/nginx-nginx2root-cve-2026-123633-faq/"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "Rapid7 publishes a lab-only PoC for CVE-2026-123007 that needs about 128 GB of HTTP/2 traffic over a single connection. Major distro packages are still unpatched and community ingress-nginx will get no fix.",
+            "url": "https://www.precursorsecurity.com/blog/nginx2root-critical-nginx-rce-vulnerabilities"
+          }
+        ]
+      }
     },
     {
       "slug": "java4shell",
@@ -1072,6 +1466,7 @@
       "family": "4shell",
       "product": "OpenJDK / Oracle Java SE (HotSpot JVM)",
       "vendor": "Oracle / OpenJDK",
+      "ecosystem": "Java",
       "disclosed": "2026-11-17",
       "discoverer": "Quang Luong (Calif.io); Oracle also credits Albert Yang",
       "summary": "A heap overflow in the AVX-512 VBMI-accelerated Base64 decoder intrinsic of the HotSpot JVM on x86-64. Any Java app that Base64-decodes attacker-controlled input can have its heap corrupted, crashing the JVM or potentially leading to code execution. Details leaked shortly before the coordinated Oracle/OpenJDK release on 17 Nov 2026.",
@@ -1170,7 +1565,41 @@
           "stars": 3,
           "note": "Local checker + vulnerable-vs-mitigated Docker lab; small account, unverified."
         }
-      ]
+      ],
+      "real_world": {
+        "level": "limited",
+        "headline": "GreyNoise logged Java4Shell-shaped probes within a day of disclosure, but exploits must be tailored per application and no compromises have been confirmed.",
+        "exposure": "Affects OpenJDK 17.0.6+, 21, 25 and 27 on x86-64 CPUs with AVX-512 VBMI. Calif showed pre-auth RCE paths in default Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate. No internet-wide host count has been published.",
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-11-17",
+            "text": "Oracle's Critical Patch Update and the OpenJDK advisory fix CVE-2026-114938, and Calif publishes its Java4Shell write-up with a bounded trigger-only PoC.",
+            "url": "https://calif.io/java4shell/"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "GreyNoise records 69 Java4Shell-shaped requests from 4 IPs since disclosure, with no confirmed successful exploitation against its sensors.",
+            "url": "https://java4shell.events.greynoise.io/"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "VulnCheck says a working RCE exploit is available to its customers. CISA has not added the flaw to KEV, and GreyNoise sees a public version scanner in use.",
+            "url": "https://www.tenable.com/blog/java4shell-cve-2026-114938-frequently-asked-questions-about-openjdk-rce-vulnerability"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "Canada's Cyber Centre issues alert AL26-029 and says it knows of no attacks. Red Hat, Temurin and Microsoft OpenJDK builds are still awaiting fixes.",
+            "url": "https://thehackernews.com/2026/11/java4shell-cve-2026-114938-enables-pre.html"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "Sophos says it is not aware of public reports of in-the-wild exploitation.",
+            "url": "https://www.sophos.com/en-us/security-advisories/sophos-sa-20261118-java4shell"
+          }
+        ]
+      }
     },
     {
       "slug": "able2shell",
@@ -1182,6 +1611,7 @@
       "family": "2shell",
       "product": "N-able N-central (on-prem RMM appliance, agents and probes)",
       "vendor": "N-able",
+      "ecosystem": "RMM/IT",
       "disclosed": "2026-11-09",
       "discoverer": "Independent researcher Sean Bales (GitHub: MSPNightmare); CVE-2026-125882 also credited to Nate Fair (Sprocket Security)",
       "summary": "A researcher dumped 33 N-central bugs and exploit chains on GitHub as 'Able2Shell', giving unauthenticated attackers root on on-prem N-central servers and control of managed agents. After N-able's 10 Nov hotfix he released follow-up chains '4EverAble2Shell' (via the Legacy API and an Apache Axis 1.x flaw, CVE-2026-90436) and 'Agent2Shell'. N-able took hosted N-central offline and shipped HF2 and HF3 with 24 CVEs.",
@@ -1307,7 +1737,53 @@
           "stars": 2,
           "note": "Docker lab + PoC for the Apache Axis stage; established researcher account."
         }
-      ]
+      ],
+      "real_world": {
+        "level": "moderate",
+        "headline": "Hours after the 4EverAble2Shell PoC dropped, an attacker rooted at least 21 on-prem N-central servers in seven countries and installed XMRig, 19 of them on the latest Hotfix 2 build.",
+        "exposure": "Only on-prem servers with the non-default Legacy API enabled and internet-reachable were exposed. No overall exposed-host count has been published.",
+        "actors": [
+          "Unattributed cryptojacker operating from 157.20.241[.]16 (miner IDs prefixed 'nc_')"
+        ],
+        "ransomware": false,
+        "events": [
+          {
+            "date": "2026-11-09",
+            "text": "N-able responds to Sean Bales' 'Able2Shell' disclosure of 33 issues, tells customers to keep N-central offline, and takes hosted classic environments down.",
+            "url": "https://rapid7.com/blog/post/etr-critical-vulnerabilities-in-n-able-n-central-prompt-hosted-shutdown"
+          },
+          {
+            "date": "2026-11-10",
+            "text": "N-able releases N-central 2026.4 Hotfix 2 (2026.4.1.26) and reports scanning tied to the PoC but no successful customer compromises.",
+            "url": "https://rapid7.com/blog/post/etr-critical-vulnerabilities-in-n-able-n-central-prompt-hosted-shutdown"
+          },
+          {
+            "date": "2026-11-12",
+            "text": "Bales publishes '4EverAble2Shell', which chains Apache Axis CVE-2026-90436 with a root privilege escalation and works against Hotfix 2. Previdian and watchTowr see probing within hours.",
+            "url": "https://thehackernews.com/2026/11/new-n-central-exploits-work-against.html"
+          },
+          {
+            "date": "2026-11-12",
+            "text": "Huntback confirms at least 21 production N-central servers in the US, Canada, South Africa, UK, Germany, France and Sweden running XMRig miners that report to a single pool account.",
+            "url": "https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/"
+          },
+          {
+            "date": "2026-11-13",
+            "text": "N-able publishes IOCs and temporarily disables the Intune integration. Huntress says Hotfix 2 servers with Legacy API disabled are not exposed to the chain.",
+            "url": "https://blog.gridinsoft.com/n-central-hf2-miners-legacy-api-exposure/"
+          },
+          {
+            "date": "2026-11-16",
+            "text": "Rapid7 ties the Legacy API attacks to CVE-2026-90436, an unsafe-reflection flaw in Apache Axis 1.x for which Apache plans no fix.",
+            "url": "https://blog.gridinsoft.com/n-central-hf2-miners-legacy-api-exposure/"
+          },
+          {
+            "date": "2026-11-18",
+            "text": "CISA adds CVE-2026-90436, the Apache Axis first stage of the 4EverAble2Shell chain, to the KEV catalog.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          }
+        ]
+      }
     },
     {
       "slug": "kindarails2shell",
@@ -1318,6 +1794,7 @@
       "family": "2shell",
       "product": "Ruby on Rails (Active Storage with libvips)",
       "vendor": "Rails",
+      "ecosystem": "Ruby",
       "disclosed": "2026-07-29",
       "discoverer": "André Baptista, Bruno Mendes and Rafael Castilho (Ethiack); independently RyotaK (GMO Flatt Security)",
       "summary": "Rails Active Storage never told libvips to block its unsafe loaders, so a crafted image upload can make libvips read arbitrary files on the server. Leaking secrets like secret_key_base can then be escalated to remote code execution. Ethiack named it 'Kinda' because the chain needs a few common-but-not-universal conditions.",
@@ -1397,7 +1874,48 @@
           "stars": 24,
           "note": "CAUTION: account created July 2026, repo published same day as advisory; unverified."
         }
-      ]
+      ],
+      "real_world": {
+        "level": "moderate",
+        "headline": "KindaRails2Shell went a month without known in-the-wild use before VulnCheck caught real exploitation against its canaries, and the patch was later reported to leave a deserialization path open.",
+        "exposure": "VulnCheck identified about 7,000 to 7,100 internet-exposed vulnerable Rails instances in early August 2026.",
+        "actors": [
+          "Unattributed actor (single French IP with Israeli C2)"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-07-29",
+            "text": "Rails patched CVE-2026-66066 (CVSS 9.5), an unauthenticated file read in Active Storage with libvips that can expose secret_key_base and lead to RCE, in 7.2.3.2, 8.0.5.1 and 8.1.3.1.",
+            "url": "https://www.helpnetsecurity.com/2026/08/03/kindarails2shell-cve-2026-66066/"
+          },
+          {
+            "date": "2026-08-03",
+            "text": "Exploit material was circulating, but there were no public reports of in-the-wild exploitation, and the Rails team released forensic tooling and told users to rotate their secrets.",
+            "url": "https://www.helpnetsecurity.com/2026/08/03/kindarails2shell-cve-2026-66066/"
+          },
+          {
+            "date": "2026-08",
+            "text": "VulnCheck counted about 7,000 exposed Rails instances vulnerable to KindaRails2Shell.",
+            "url": "https://www.securityweek.com/critical-ruby-on-rails-vulnerability-in-attackers-crosshairs/"
+          },
+          {
+            "date": "2026-08-31",
+            "text": "VulnCheck reported active exploitation against its canaries in Singapore, Israel and the UK, coming from a single French IP with command-and-control in Israel.",
+            "url": "https://thehackernews.com/2026/09/attackers-exploit-critical-langflow-and.html"
+          },
+          {
+            "date": "2026-09-01",
+            "text": "VulnCheck testing reported the fix in 8.1.3.1 as incomplete: it blocks the file read, but the Marshal deserialization gadget still runs if an attacker holds a valid signature.",
+            "url": "https://thehackernews.com/2026/09/attackers-exploit-critical-langflow-and.html"
+          },
+          {
+            "date": "2026-11",
+            "text": "As of November 18, 2026, CVE-2026-66066 has not been added to CISA's Known Exploited Vulnerabilities catalog.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          }
+        ]
+      }
     },
     {
       "slug": "fortinet2shell",
@@ -1406,6 +1924,7 @@
       "family": "2shell",
       "product": "Fortinet FortiClient (Windows, Mac, Windows PAM)",
       "vendor": "Fortinet",
+      "ecosystem": "Network/VPN",
       "disclosed": "2026-11-10",
       "discoverer": "Kevin Joensen (Baldur Security)",
       "summary": "FortiClient runs a local API service that trusts requests from web pages because of a CORS / origin-validation flaw. A user who simply visits a malicious website can have code executed on their machine through FortiClient. The researcher says it works reliably when FortiPAM is enabled.",
@@ -1456,7 +1975,885 @@
           "stars": 0,
           "note": "Containerised PoC; not from the discoverer, unverified."
         }
-      ]
+      ],
+      "real_world": {
+        "level": "none-yet",
+        "headline": "A one-click FortiClient RCE triggered from a malicious webpage, but Fortinet and researchers report no exploitation in the wild so far.",
+        "exposure": "Limited to FortiClient 7.4.0-7.4.7 (Windows/macOS) and 7.2.0-7.2.14 (Windows) with FortiPAM enabled. No host counts have been published, and as a client-side bug it cannot be counted with internet scans.",
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-11-10",
+            "text": "Fortinet's monthly release fixes CVE-2026-121529 in FortiClient 7.4.8 and 7.2.15, part of roughly 100 flaws patched, with none flagged as exploited.",
+            "url": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/"
+          },
+          {
+            "date": "2026-11-11",
+            "text": "Baldur Security's Kevin Joensen names the bug Fortinet2Shell and traces it to a CORS misconfiguration that lets websites reach a local FortiClient API.",
+            "url": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/"
+          },
+          {
+            "date": "2026-11-12",
+            "text": "Press coverage confirms no in-the-wild exploitation and notes the flaw only affects endpoints with FortiPAM enabled.",
+            "url": "https://www.cyberdaily.au/security/14435-fortinet-patches-raft-of-vulnerabilities-but-is-security-through-obscurity-enough"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "plugin4shell",
+      "name": "Plugin4Shell",
+      "aliases": [],
+      "family": "4shell",
+      "product": "AI coding agent plugin installers (Claude Code, Claude Desktop, OpenAI Codex, GitHub Copilot, Gemini CLI)",
+      "vendor": "Anthropic / OpenAI / Microsoft (GitHub) / Google",
+      "ecosystem": "AI/ML",
+      "disclosed": "2026-09-17",
+      "discoverer": "Or Nevo, Dor Granat and Niv Hoffman (Air Security research lab)",
+      "summary": "Four popular AI coding agents asked git for a plugin's pinned commit SHA but never checked that the checked-out HEAD actually matched it. A plugin owner could create a branch named after the reviewed commit hash so git resolved the branch tip instead, swapping in attacker code while the pin still looked valid. Background plugin auto-updates re-ran the checkout, so no user action was needed once a plugin was installed.",
+      "impact": "Zero-click code execution via plugin supply chain (SHA-pin bypass)",
+      "affected": "Claude Code / Claude Desktop before 2.1.179; Codex before 0.146.0; GitHub Copilot in VS Code before 1.136.0; Gemini CLI (all versions)",
+      "fixed": "Claude Code 2.1.179; Codex 0.146.0; VS Code 1.136.0 (Copilot); Gemini CLI will not be fixed (deprecated in favour of Antigravity)",
+      "mitigation": "Update each agent; where an agent cannot be patched, disable automatic plugin updates and only source plugins from hosts that reject SHA-shaped branch names; independently verify the commit each plugin resolves to.",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2026-86063",
+          "cvss": 7.5,
+          "cvss_version": "4.0",
+          "severity": "High",
+          "note": "Claude Code / Claude Desktop only (CNA: GitHub). NVD status 'Awaiting Analysis'; no CVEs found for the Codex, Copilot or Gemini CLI variants.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2026-86063"
+        }
+      ],
+      "official": [
+        {
+          "title": "Anthropic Claude Code security advisories",
+          "url": "https://github.com/anthropics/claude-code/security/advisories"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Air Security: Plugin4Shell - Zero Click RCE in the top 4 coding agents",
+          "url": "https://www.air.security/blog-posts/plugin4shell"
+        },
+        {
+          "title": "CSA research note: Plugin4Shell SHA-pinning bypass",
+          "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-plugin4shell-ai-coding-agent-supply-chain/"
+        },
+        {
+          "title": "Cyber Security News: Plugin4Shell zero-click RCE hits Claude Code, Codex, Copilot and Gemini CLI",
+          "url": "https://cybersecuritynews.com/plugin4shell-zero-click-rce/"
+        },
+        {
+          "title": "SecurityOnline: Plugin4Shell",
+          "url": "https://securityonline.info/plugin4shell-coding-agents-rce/"
+        }
+      ],
+      "pocs": [],
+      "real_world": {
+        "level": "none-yet",
+        "headline": "A supply-chain bug in the tools that write code: one poisoned plugin branch silently hijacked four major AI coding agents.",
+        "exposure": null,
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2026-06-17",
+            "text": "Anthropic confirms the fix in Claude Code 2.1.179 after coordinated disclosure to all four vendors in June.",
+            "url": "https://www.air.security/blog-posts/plugin4shell"
+          },
+          {
+            "date": "2026-08-04",
+            "text": "Google confirms no fix will ship for the deprecated Gemini CLI.",
+            "url": "https://www.air.security/blog-posts/plugin4shell"
+          },
+          {
+            "date": "2026-09-17",
+            "text": "Air Security publicly discloses Plugin4Shell with working PoCs against Claude Code, Codex, Copilot and Gemini CLI (not released).",
+            "url": "https://www.air.security/blog-posts/plugin4shell"
+          },
+          {
+            "date": "2026-09-19",
+            "text": "Cloud Security Alliance publishes a research note urging inventory of AI coding agents and disabling plugin auto-updates where unpatched.",
+            "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-plugin4shell-ai-coding-agent-supply-chain/"
+          },
+          {
+            "date": "2026-10-13",
+            "text": "CVE-2026-86063 published for the Claude Code / Claude Desktop variant.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86063"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "shellshock",
+      "name": "Shellshock",
+      "aliases": [
+        "Bashdoor",
+        "Bash bug"
+      ],
+      "family": "shell-family",
+      "product": "GNU Bash",
+      "vendor": "GNU Project",
+      "ecosystem": "Linux/Unix",
+      "disclosed": "2014-09-24",
+      "discoverer": "Stéphane Chazelas",
+      "summary": "Bash executed trailing commands placed after a function definition inside an environment variable. Anything that passed attacker-controlled data into environment variables before invoking bash, such as CGI scripts, DHCP clients and some SSH setups, gave remote command execution. The first patch was incomplete, producing a run of follow-up CVEs over the next week.",
+      "impact": "Unauthenticated RCE (via CGI, DHCP, etc.)",
+      "affected": "GNU Bash 1.0.3 through 4.3 (before bash43-025/026/027)",
+      "fixed": "bash43-025 (CVE-2014-6271), bash43-026 (CVE-2014-7169), bash43-027 and distro backports for the follow-up CVEs",
+      "mitigation": "Upgrade bash via distribution updates; remove or disable bash-backed CGI scripts and avoid passing untrusted input through environment variables.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2022-01-28"
+      },
+      "cves": [
+        {
+          "id": "CVE-2014-6271",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Original Shellshock bug",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2014-6271"
+        },
+        {
+          "id": "CVE-2014-7169",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Incomplete fix for CVE-2014-6271 (Tavis Ormandy); also on KEV",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169"
+        }
+      ],
+      "official": [
+        {
+          "title": "oss-security: CVE-2014-6271 remote code execution through bash",
+          "url": "https://seclists.org/oss-sec/2014/q3/649"
+        },
+        {
+          "title": "Red Hat: Bash Code Injection Vulnerability via Specially Crafted Environment Variables",
+          "url": "https://access.redhat.com/articles/1200223"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Cloudflare: Inside Shellshock - how hackers are using it to exploit systems",
+          "url": "https://blog.cloudflare.com/inside-shellshock/"
+        },
+        {
+          "title": "Troy Hunt: Everything you need to know about the Shellshock Bash bug",
+          "url": "https://www.troyhunt.com/everything-you-need-to-know-about2/"
+        },
+        {
+          "title": "Wikipedia: Shellshock (software bug)",
+          "url": "https://en.wikipedia.org/wiki/Shellshock_(software_bug)"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "nccgroup/shocker",
+          "url": "https://github.com/nccgroup/shocker",
+          "type": "scanner",
+          "stars": 327,
+          "note": "NCC Group tool to find and exploit Shellshock-vulnerable servers"
+        },
+        {
+          "title": "opsxcq/exploit-CVE-2014-6271",
+          "url": "https://github.com/opsxcq/exploit-CVE-2014-6271",
+          "type": "lab",
+          "stars": 232,
+          "note": "Exploit plus vulnerable Docker environment"
+        },
+        {
+          "title": "rapid7/metasploit-framework",
+          "url": "https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/apache_mod_cgi_bash_env_exec.rb",
+          "type": "exploit",
+          "stars": 39608,
+          "note": "Metasploit module apache_mod_cgi_bash_env_exec"
+        },
+        {
+          "title": "projectdiscovery/nuclei-templates",
+          "url": "https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2014/CVE-2014-6271.yaml",
+          "type": "scanner",
+          "stars": 13361,
+          "note": "Nuclei template CVE-2014-6271"
+        }
+      ],
+      "real_world": {
+        "level": "massive",
+        "headline": "Botnets were built from it within a day of disclosure, and it was still being probed millions of times a day weeks later.",
+        "exposure": "Cloudflare reported tracking about 1.5 million Shellshock attacks and probes per day by 30 September 2014; Incapsula counted 17,400 attacks on 1,800+ domains in a single 24-hour window.",
+        "actors": [
+          "wopbot botnet"
+        ],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2014-09-24",
+            "text": "Bash maintainers ship fixes and Shellshock is publicly disclosed on oss-security.",
+            "url": "https://seclists.org/oss-sec/2014/q3/649"
+          },
+          {
+            "date": "2014-09-25",
+            "text": "Attackers are already using Shellshock to build botnets for DDoS and scanning.",
+            "url": "https://www.wired.com/2014/09/hackers-already-using-shellshock-bug-create-botnets-ddos-attacks/"
+          },
+          {
+            "date": "2014-09-25",
+            "text": "CVE-2014-7169 shows the first patch was incomplete, triggering a second round of updates.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169"
+          },
+          {
+            "date": "2014-09-30",
+            "text": "Cloudflare reports roughly 1.5 million Shellshock attacks and probes per day.",
+            "url": "https://blog.cloudflare.com/inside-shellshock/"
+          },
+          {
+            "date": "2022-01-28",
+            "text": "CISA adds CVE-2014-6271 and CVE-2014-7169 to the KEV catalog.",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "proxyshell",
+      "name": "ProxyShell",
+      "aliases": [],
+      "family": "shell-family",
+      "product": "Microsoft Exchange Server (on-premises)",
+      "vendor": "Microsoft",
+      "ecosystem": "Microsoft",
+      "disclosed": "2021-08-05",
+      "discoverer": "Orange Tsai (DEVCORE)",
+      "summary": "ProxyShell chains three Exchange bugs: a pre-auth path confusion in the Client Access Service (CVE-2021-34473), an elevation of privilege in the Exchange PowerShell backend (CVE-2021-34523) and an arbitrary file write via mailbox export (CVE-2021-31207). Together they let an unauthenticated attacker drop a web shell on the server. Microsoft patched it quietly in April and May 2021, and mass exploitation followed within about a week of Orange Tsai's Black Hat talk.",
+      "impact": "Unauthenticated RCE (web shell)",
+      "affected": "Exchange Server 2013, 2016 and 2019 without the April/May 2021 security updates",
+      "fixed": "April 2021 (KB5001779) and May 2021 (KB5003435) Exchange security updates and later CUs",
+      "mitigation": "Install current Exchange CUs and security updates; hunt for web shells and suspicious mailbox exports; keep Exchange off direct internet exposure where possible.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2021-11-03"
+      },
+      "cves": [
+        {
+          "id": "CVE-2021-34473",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Pre-auth path confusion / SSRF (Microsoft score 9.1)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-34473"
+        },
+        {
+          "id": "CVE-2021-34523",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Exchange PowerShell backend elevation of privilege (Microsoft score 9.0)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-34523"
+        },
+        {
+          "id": "CVE-2021-31207",
+          "cvss": 6.6,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "Post-auth arbitrary file write via mailbox export",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2021-31207"
+        }
+      ],
+      "official": [
+        {
+          "title": "MSRC: CVE-2021-34473",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34473"
+        },
+        {
+          "title": "CISA: Urgent - Protect Against Active Exploitation of ProxyShell Vulnerabilities",
+          "url": "https://www.cisa.gov/news-events/alerts/2021/08/21/urgent-protect-against-active-exploitation-proxyshell-vulnerabilities"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Orange Tsai: ProxyShell - a new attack surface on MS Exchange (part 3)",
+          "url": "https://blog.orange.tw/posts/2021-08-proxyshell-a-new-attack-surface-on-ms-exchange-part-3/"
+        },
+        {
+          "title": "ZDI: From Pwn2Own 2021 - a new attack surface on Microsoft Exchange (ProxyShell)",
+          "url": "https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell"
+        },
+        {
+          "title": "Huntress: Microsoft Exchange servers still vulnerable to ProxyShell exploit",
+          "url": "https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "dmaasland/proxyshell-poc",
+          "url": "https://github.com/dmaasland/proxyshell-poc",
+          "type": "exploit",
+          "stars": 381,
+          "note": "Early public PoC (archived)"
+        },
+        {
+          "title": "horizon3ai/proxyshell",
+          "url": "https://github.com/horizon3ai/proxyshell",
+          "type": "exploit",
+          "stars": 121,
+          "note": "Horizon3.ai PoC for the full chain"
+        },
+        {
+          "title": "rapid7/metasploit-framework",
+          "url": "https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/windows/http/exchange_proxyshell_rce.rb",
+          "type": "exploit",
+          "stars": 39608,
+          "note": "Metasploit module exchange_proxyshell_rce"
+        }
+      ],
+      "real_world": {
+        "level": "massive",
+        "headline": "Patched in silence, then weaponised within a week of a conference talk and used by ransomware crews and Iranian state actors for years.",
+        "exposure": "Huntress saw about 1,900 vulnerable Exchange servers among those it monitored and 164 compromised in four days (Aug 2021), later finding 200+ hidden web shells across 4,000+ servers.",
+        "actors": [
+          "LockFile",
+          "Conti affiliates",
+          "Iranian government-sponsored APT (AA21-321A)"
+        ],
+        "ransomware": true,
+        "events": [
+          {
+            "date": "2021-08-05",
+            "text": "Orange Tsai presents ProxyShell at Black Hat USA 2021.",
+            "url": "https://blog.orange.tw/posts/2021-08-proxyshell-a-new-attack-surface-on-ms-exchange-part-3/"
+          },
+          {
+            "date": "2021-08-13",
+            "text": "In-the-wild ProxyShell exploitation begins (first spotted by Kevin Beaumont); Huntress soon finds web shells on hundreds of Exchange servers.",
+            "url": "https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit"
+          },
+          {
+            "date": "2021-08-20",
+            "text": "LockFile ransomware is seen breaching Exchange via ProxyShell and taking over domains with PetitPotam.",
+            "url": "https://www.security.com/threat-intelligence/lockfile-ransomware-new-petitpotam-windows"
+          },
+          {
+            "date": "2021-08-21",
+            "text": "CISA issues an urgent alert about active ProxyShell exploitation.",
+            "url": "https://www.cisa.gov/news-events/alerts/2021/08/21/urgent-protect-against-active-exploitation-proxyshell-vulnerabilities"
+          },
+          {
+            "date": "2021-09-03",
+            "text": "Sophos reports Conti affiliates using ProxyShell for initial access in ransomware attacks.",
+            "url": "https://www.scmagazine.com/news/conti-ransomware-group-launches-attacks-leveraging-proxyshell-vulnerabilities-in-microsoft-exchange"
+          },
+          {
+            "date": "2021-11-17",
+            "text": "CISA, FBI, ACSC and NCSC warn that Iranian government-sponsored APT actors are exploiting ProxyShell.",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-321a"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "proxynotshell",
+      "name": "ProxyNotShell",
+      "aliases": [],
+      "family": "shell-family",
+      "product": "Microsoft Exchange Server (on-premises)",
+      "vendor": "Microsoft",
+      "ecosystem": "Microsoft",
+      "disclosed": "2022-09-28",
+      "discoverer": "GTSC (Vietnam), via Trend Micro ZDI",
+      "summary": "ProxyNotShell pairs an SSRF in Exchange (CVE-2022-41040) with a remote code execution bug reachable through Exchange PowerShell remoting (CVE-2022-41082). It looked like ProxyShell, but needs any valid mailbox credentials, which is how it got the 'Not' in its name. It was exploited as a zero-day before disclosure, and Microsoft's interim URL-rewrite mitigations were later bypassed by the OWASSRF technique.",
+      "impact": "Authenticated RCE (any mailbox user)",
+      "affected": "Exchange Server 2013, 2016 and 2019 before the November 2022 security updates",
+      "fixed": "November 8, 2022 Exchange security updates (KB5019758)",
+      "mitigation": "Apply the November 2022 (or later) Exchange updates; the September 2022 URL-rewrite rules alone are insufficient (bypassed by OWASSRF); disable remote PowerShell for non-admin users.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2022-09-30"
+      },
+      "cves": [
+        {
+          "id": "CVE-2022-41040",
+          "cvss": 8.8,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "SSRF / elevation of privilege (Microsoft CNA score)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-41040"
+        },
+        {
+          "id": "CVE-2022-41082",
+          "cvss": 8.0,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "RCE via Exchange PowerShell (Microsoft CNA score)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-41082"
+        }
+      ],
+      "official": [
+        {
+          "title": "MSRC: Customer guidance for reported zero-day vulnerabilities in Microsoft Exchange Server",
+          "url": "https://msrc.microsoft.com/blog/2022/09/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/"
+        },
+        {
+          "title": "Microsoft Security: Analyzing attacks using the Exchange vulnerabilities CVE-2022-41040 and CVE-2022-41082",
+          "url": "https://www.microsoft.com/en-us/security/blog/2022/09/30/analyzing-attacks-using-the-exchange-vulnerabilities-cve-2022-41040-and-cve-2022-41082/"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "GTSC: Warning - new attack campaign utilized a new 0day RCE on Microsoft Exchange",
+          "url": "https://gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html"
+        },
+        {
+          "title": "ZDI: Control your types or get pwned - RCE in Exchange PowerShell backend",
+          "url": "https://www.zerodayinitiative.com/blog/2022/11/14/control-your-types-or-get-pwned-remote-code-execution-in-exchange-powershell-backend"
+        },
+        {
+          "title": "CrowdStrike: OWASSRF exploit analysis and recommendations",
+          "url": "https://www.crowdstrike.com/blog/owassrf-exploit-analysis-and-recommendations/"
+        },
+        {
+          "title": "Tenable: ProxyNotShell, OWASSRF, TabShell - patch your Exchange servers now",
+          "url": "https://www.tenable.com/blog/proxynotshell-owassrf-tabshell-patch-your-microsoft-exchange-servers-now"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "testanull/ProxyNotShell-PoC",
+          "url": "https://github.com/testanull/ProxyNotShell-PoC",
+          "type": "exploit",
+          "stars": 413,
+          "note": "Public PoC released after the November 2022 patch"
+        },
+        {
+          "title": "rapid7/metasploit-framework",
+          "url": "https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/windows/http/exchange_proxynotshell_rce.rb",
+          "type": "exploit",
+          "stars": 39608,
+          "note": "Metasploit module exchange_proxynotshell_rce"
+        }
+      ],
+      "real_world": {
+        "level": "major",
+        "headline": "A zero-day used against Exchange for two months before anyone named it, then reopened by OWASSRF for Play ransomware.",
+        "exposure": "Shadowserver counted more than 60,000 internet-facing Exchange servers still vulnerable to ProxyNotShell in early January 2023 (via Tenable).",
+        "actors": [
+          "Suspected Chinese group (GTSC)",
+          "Play ransomware (OWASSRF)",
+          "Cuba ransomware (OWASSRF)"
+        ],
+        "ransomware": true,
+        "events": [
+          {
+            "date": "2022-08-01",
+            "text": "GTSC's SOC detects attacks on a customer's Exchange server around the start of August 2022; web shells point to a Chinese-speaking actor.",
+            "url": "https://gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html"
+          },
+          {
+            "date": "2022-09-28",
+            "text": "GTSC publishes its warning; Microsoft releases interim mitigation guidance the next day.",
+            "url": "https://gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html"
+          },
+          {
+            "date": "2022-09-30",
+            "text": "CISA adds CVE-2022-41040 and CVE-2022-41082 to KEV; Microsoft attributes the attacks to a single state-sponsored activity group.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2022/09/30/analyzing-attacks-using-the-exchange-vulnerabilities-cve-2022-41040-and-cve-2022-41082/"
+          },
+          {
+            "date": "2022-11-08",
+            "text": "Microsoft ships fixes in the November 2022 Patch Tuesday.",
+            "url": "https://www.tenable.com/blog/proxynotshell-owassrf-tabshell-patch-your-microsoft-exchange-servers-now"
+          },
+          {
+            "date": "2022-12-20",
+            "text": "CrowdStrike discloses OWASSRF, a bypass of the ProxyNotShell mitigations used in Play ransomware intrusions.",
+            "url": "https://www.crowdstrike.com/blog/owassrf-exploit-analysis-and-recommendations/"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "tabshell",
+      "name": "TabShell",
+      "aliases": [
+        "OWASSRF + TabShell"
+      ],
+      "family": "shell-family",
+      "product": "PowerShell / Microsoft Exchange Server remote PowerShell",
+      "vendor": "Microsoft",
+      "ecosystem": "Microsoft",
+      "disclosed": "2022-12-13",
+      "discoverer": "Viettel Cyber Security researchers",
+      "summary": "TabShell (CVE-2022-41076) is a PowerShell remoting sandbox escape: from the restricted runspace that Exchange exposes, an authenticated user can break out and run arbitrary cmdlets and code. Viettel chained it with OWASSRF (CVE-2022-41080) to get from an Exchange mailbox login to code execution on the server. Microsoft fixed it in December 2022 Patch Tuesday, and Viettel published the research and name later that month.",
+      "impact": "Authenticated RCE (PowerShell sandbox escape)",
+      "affected": "Windows PowerShell / PowerShell 7 builds before the December 2022 updates; reached through Exchange remote PowerShell",
+      "fixed": "December 13, 2022 Patch Tuesday updates (PowerShell) plus the November 2022 Exchange updates for OWASSRF",
+      "mitigation": "Apply the December 2022 PowerShell updates and November 2022+ Exchange updates; disable remote PowerShell for non-admin users; Microsoft notes blocking TCP 5985/5986 limits attacks.",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2022-41076",
+          "cvss": 8.5,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "TabShell itself (PowerShell RCE)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-41076"
+        },
+        {
+          "id": "CVE-2022-41080",
+          "cvss": 8.8,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "OWASSRF front half of the chain (Microsoft score; NVD 9.8). On KEV since 2023-01-10 for OWASSRF exploitation, not for TabShell.",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-41080"
+        }
+      ],
+      "official": [
+        {
+          "title": "MSRC: CVE-2022-41076 PowerShell Remote Code Execution Vulnerability",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-41076"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Viettel Cyber Security: TabShell and OWASSRF",
+          "url": "https://blog.viettelcybersecurity.com/tabshell-owassrf/"
+        },
+        {
+          "title": "Tenable: ProxyNotShell, OWASSRF, TabShell - patch your Exchange servers now",
+          "url": "https://www.tenable.com/blog/proxynotshell-owassrf-tabshell-patch-your-microsoft-exchange-servers-now"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "testanull (gist)",
+          "url": "https://gist.github.com/testanull/518871a2e2057caa2bc9c6ae6634103e",
+          "type": "exploit",
+          "stars": null,
+          "note": "PoC of TabShell (CVE-2022-41076), links to the Viettel write-up"
+        }
+      ],
+      "real_world": {
+        "level": "limited",
+        "headline": "The quiet sequel to ProxyNotShell: a public sandbox-escape PoC, but no confirmed attacks of its own.",
+        "exposure": null,
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2022-12-13",
+            "text": "Microsoft patches CVE-2022-41076 in December 2022 Patch Tuesday.",
+            "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-41076"
+          },
+          {
+            "date": "2022-12-20",
+            "text": "CrowdStrike discloses OWASSRF (CVE-2022-41080), the entry point TabShell is chained with, in Play ransomware cases.",
+            "url": "https://www.crowdstrike.com/blog/owassrf-exploit-analysis-and-recommendations/"
+          },
+          {
+            "date": "2023-01-09",
+            "text": "A public TabShell PoC is posted as a GitHub gist pointing to the Viettel write-up.",
+            "url": "https://gist.github.com/testanull/518871a2e2057caa2bc9c6ae6634103e"
+          },
+          {
+            "date": "2023-01-31",
+            "text": "Tenable reports a public PoC but no confirmed in-the-wild TabShell use.",
+            "url": "https://www.tenable.com/blog/proxynotshell-owassrf-tabshell-patch-your-microsoft-exchange-servers-now"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "toolshell",
+      "name": "ToolShell",
+      "aliases": [],
+      "family": "shell-family",
+      "product": "Microsoft SharePoint Server (on-premises)",
+      "vendor": "Microsoft",
+      "ecosystem": "Microsoft",
+      "disclosed": "2025-07-19",
+      "discoverer": "Dinh Ho Anh Khoa (Viettel Cyber Security) at Pwn2Own Berlin 2025; chain named and reproduced by Code White GmbH; mass exploitation found by Eye Security",
+      "summary": "ToolShell abuses SharePoint's ToolPane.aspx endpoint: an authentication bypass (CVE-2025-49706) plus unsafe deserialization (CVE-2025-49704) give unauthenticated code execution. Attackers used it to drop spinstall0.aspx and steal ASP.NET machine keys, which let them forge signed ViewState payloads and keep access even after patching. CVE-2025-53770 and CVE-2025-53771 were assigned for patch bypasses of the July 2025 fixes.",
+      "impact": "Unauthenticated RCE + machine key theft",
+      "affected": "SharePoint Server Subscription Edition, 2019 and 2016 (on-premises only; SharePoint Online not affected)",
+      "fixed": "July 2025 emergency updates: KB5002768 (Subscription Edition), KB5002754 + KB5002753 (2019), KB5002760 + KB5002759 (2016)",
+      "mitigation": "Install the July 2025 updates, enable AMSI in Full Mode with Defender, then rotate ASP.NET machine keys and run iisreset on every SharePoint server; disconnect from the internet if AMSI cannot be enabled.",
+      "exploited_in_wild": true,
+      "kev": {
+        "listed": true,
+        "date_added": "2025-07-20"
+      },
+      "cves": [
+        {
+          "id": "CVE-2025-53770",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "Deserialization RCE, patch bypass of CVE-2025-49704",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-53770"
+        },
+        {
+          "id": "CVE-2025-53771",
+          "cvss": 6.5,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "Spoofing / auth bypass, patch bypass of CVE-2025-49706 (not on KEV)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-53771"
+        },
+        {
+          "id": "CVE-2025-49704",
+          "cvss": 8.8,
+          "cvss_version": "3.1",
+          "severity": "High",
+          "note": "Original Pwn2Own code injection bug (KEV 2025-07-22)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-49704"
+        },
+        {
+          "id": "CVE-2025-49706",
+          "cvss": 6.5,
+          "cvss_version": "3.1",
+          "severity": "Medium",
+          "note": "Original Pwn2Own authentication bypass (KEV 2025-07-22)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2025-49706"
+        }
+      ],
+      "official": [
+        {
+          "title": "MSRC: Customer guidance for SharePoint vulnerability CVE-2025-53770",
+          "url": "https://msrc.microsoft.com/blog/2025/07/customer-guidance-for-sharepoint-vulnerability-cve-2025-53770/"
+        },
+        {
+          "title": "CISA: Microsoft releases guidance on exploitation of SharePoint vulnerabilities",
+          "url": "https://www.cisa.gov/news-events/alerts/2025/07/20/update-microsoft-releases-guidance-exploitation-sharepoint-vulnerabilities"
+        },
+        {
+          "title": "Microsoft Security: Disrupting active exploitation of on-premises SharePoint vulnerabilities",
+          "url": "https://www.microsoft.com/en-us/security/blog/2025/07/22/disrupting-active-exploitation-of-on-premises-sharepoint-vulnerabilities/"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Eye Security: SharePoint under siege",
+          "url": "https://labs.eye.security/sharepoint-under-siege/"
+        },
+        {
+          "title": "Unit 42: Active exploitation of Microsoft SharePoint vulnerabilities",
+          "url": "https://unit42.paloaltonetworks.com/microsoft-sharepoint-cve-2025-49704-cve-2025-49706-cve-2025-53770/"
+        },
+        {
+          "title": "The Record: Microsoft says Warlock ransomware deployed in SharePoint attacks",
+          "url": "https://therecord.media/microsoft-says-warlock-ransomware-deployed-in-sharepoint-attacks"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "rapid7/metasploit-framework",
+          "url": "https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/windows/http/sharepoint_toolpane_rce.rb",
+          "type": "exploit",
+          "stars": 39608,
+          "note": "Metasploit module sharepoint_toolpane_rce"
+        },
+        {
+          "title": "LuemmelSec/ToolShell",
+          "url": "https://github.com/LuemmelSec/ToolShell",
+          "type": "exploit",
+          "stars": 31,
+          "note": "Researcher PoC"
+        },
+        {
+          "title": "hazcod/CVE-2025-53770",
+          "url": "https://github.com/hazcod/CVE-2025-53770",
+          "type": "scanner",
+          "stars": 46,
+          "note": "Scanner for CVE-2025-53770"
+        },
+        {
+          "title": "ZephrFish/CVE-2025-53770-Scanner",
+          "url": "https://github.com/ZephrFish/CVE-2025-53770-Scanner",
+          "type": "scanner",
+          "stars": 18,
+          "note": "ToolShell scanner plus detection information"
+        },
+        {
+          "title": "Immersive-Labs-Sec/SharePoint-CVE-2025-53770-POC",
+          "url": "https://github.com/Immersive-Labs-Sec/SharePoint-CVE-2025-53770-POC",
+          "type": "lab",
+          "stars": 4,
+          "note": "Immersive Labs PoC"
+        }
+      ],
+      "real_world": {
+        "level": "massive",
+        "headline": "Chinese state groups and a ransomware crew turned on-prem SharePoint into a key-stealing machine, reaching the US nuclear weapons agency.",
+        "exposure": "Eye Security scanned 23,000+ SharePoint servers and found 400+ compromised, with more than 8,000 still exposed online.",
+        "actors": [
+          "Linen Typhoon",
+          "Violet Typhoon",
+          "Storm-2603",
+          "Warlock ransomware"
+        ],
+        "ransomware": true,
+        "events": [
+          {
+            "date": "2025-07-07",
+            "text": "Microsoft observes the first exploitation attempts of CVE-2025-49706/49704, a day before the July patches.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2025/07/22/disrupting-active-exploitation-of-on-premises-sharepoint-vulnerabilities/"
+          },
+          {
+            "date": "2025-07-18",
+            "text": "Eye Security detects mass exploitation dropping spinstall0.aspx to steal machine keys.",
+            "url": "https://labs.eye.security/sharepoint-under-siege/"
+          },
+          {
+            "date": "2025-07-20",
+            "text": "Microsoft assigns CVE-2025-53770 and CISA adds it to KEV the same day.",
+            "url": "https://www.cisa.gov/news-events/alerts/2025/07/20/update-microsoft-releases-guidance-exploitation-sharepoint-vulnerabilities"
+          },
+          {
+            "date": "2025-07-22",
+            "text": "Microsoft attributes attacks to Linen Typhoon, Violet Typhoon and Storm-2603.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2025/07/22/disrupting-active-exploitation-of-on-premises-sharepoint-vulnerabilities/"
+          },
+          {
+            "date": "2025-07-24",
+            "text": "Reports confirm the US Department of Energy, including the NNSA, was breached via SharePoint, and Storm-2603 is deploying Warlock ransomware.",
+            "url": "https://therecord.media/microsoft-says-warlock-ransomware-deployed-in-sharepoint-attacks"
+          },
+          {
+            "date": "2026-10-05",
+            "text": "Warlock is still exploiting the year-old SharePoint flaws against critical infrastructure, per CSA.",
+            "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-warlock-sharepoint-edr-disable-20261005-cs/"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "shelltorch",
+      "name": "ShellTorch",
+      "aliases": [],
+      "family": "shell-family",
+      "product": "PyTorch TorchServe",
+      "vendor": "PyTorch / Meta / AWS",
+      "ecosystem": "AI/ML",
+      "disclosed": "2023-10-03",
+      "discoverer": "Idan Levcovich, Gal Elbaz and Guy Kaplan (Oligo Security)",
+      "summary": "ShellTorch is a chain of TorchServe issues. The management API listens on all interfaces with no authentication by default, model URLs are not restricted, so a remote model can be fetched (SSRF, CVE-2023-43654), and SnakeYAML deserialization (CVE-2022-1471) is reachable from a model config. Together they let a remote attacker upload a malicious model and run code on AI model-serving servers.",
+      "impact": "Unauthenticated RCE on model servers",
+      "affected": "TorchServe 0.3.0 through 0.8.1 (including default AWS/Google deep learning containers)",
+      "fixed": "TorchServe 0.8.2",
+      "mitigation": "Upgrade to TorchServe 0.8.2+; bind management_address to 127.0.0.1; set allowed_urls to trusted model sources.",
+      "exploited_in_wild": false,
+      "kev": {
+        "listed": false,
+        "date_added": null
+      },
+      "cves": [
+        {
+          "id": "CVE-2023-43654",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "SSRF / remote model fetch leading to RCE (GitHub CNA score 10.0)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2023-43654"
+        },
+        {
+          "id": "CVE-2022-1471",
+          "cvss": 9.8,
+          "cvss_version": "3.1",
+          "severity": "Critical",
+          "note": "SnakeYAML unsafe deserialization used in the chain (Google CNA score 8.3)",
+          "nvd": "https://nvd.nist.gov/vuln/detail/CVE-2022-1471"
+        }
+      ],
+      "official": [
+        {
+          "title": "GitHub advisory GHSA-8fxr-qfr9-p34w (pytorch/serve)",
+          "url": "https://github.com/pytorch/serve/security/advisories/GHSA-8fxr-qfr9-p34w"
+        },
+        {
+          "title": "AWS security bulletin AWS-2023-009",
+          "url": "https://aws.amazon.com/security/security-bulletins/AWS-2023-009/"
+        }
+      ],
+      "writeups": [
+        {
+          "title": "Oligo Security: ShellTorch - TorchServe SSRF vulnerability CVE-2023-43654",
+          "url": "https://www.oligo.security/blog/shelltorch-torchserve-ssrf-vulnerability-cve-2023-43654"
+        },
+        {
+          "title": "BleepingComputer: ShellTorch flaws expose AI servers to code execution attacks",
+          "url": "https://www.bleepingcomputer.com/news/security/shelltorch-flaws-expose-ai-servers-to-code-execution-attacks/"
+        },
+        {
+          "title": "The Record: AWS warns of 'ShellTorch' issue affecting code related to AI models",
+          "url": "https://therecord.media/pytorch-torchserve-vulnerabilities-amazon-meta-ai"
+        }
+      ],
+      "pocs": [
+        {
+          "title": "OligoCyberSecurity/ShellTorchChecker",
+          "url": "https://github.com/OligoCyberSecurity/ShellTorchChecker",
+          "type": "scanner",
+          "stars": 40,
+          "note": "Oligo's official checker"
+        },
+        {
+          "title": "OligoCyberSecurity/CVE-2023-43654",
+          "url": "https://github.com/OligoCyberSecurity/CVE-2023-43654",
+          "type": "lab",
+          "stars": 3,
+          "note": "Oligo demo of the RCE"
+        },
+        {
+          "title": "rapid7/metasploit-framework",
+          "url": "https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/torchserver_cve_2023_43654.rb",
+          "type": "exploit",
+          "stars": 39608,
+          "note": "Metasploit module torchserver_cve_2023_43654"
+        }
+      ],
+      "real_world": {
+        "level": "limited",
+        "headline": "The first big 'AI infrastructure' RCE: tens of thousands of exposed model servers, some at Fortune 500 companies.",
+        "exposure": "Oligo found tens of thousands of IP addresses exposing vulnerable TorchServe instances, many belonging to Fortune 500 organizations.",
+        "actors": [],
+        "ransomware": null,
+        "events": [
+          {
+            "date": "2023-10-02",
+            "text": "AWS publishes security bulletin AWS-2023-009; Meta changes the default management API binding.",
+            "url": "https://aws.amazon.com/security/security-bulletins/AWS-2023-009/"
+          },
+          {
+            "date": "2023-10-03",
+            "text": "Oligo Security discloses ShellTorch and releases a free checker.",
+            "url": "https://www.oligo.security/blog/shelltorch-torchserve-ssrf-vulnerability-cve-2023-43654"
+          },
+          {
+            "date": "2023-10-03",
+            "text": "The Record covers AWS warning about ShellTorch affecting AI model-serving code.",
+            "url": "https://therecord.media/pytorch-torchserve-vulnerabilities-amazon-meta-ai"
+          },
+          {
+            "date": "2023-10-05",
+            "text": "A Metasploit module for CVE-2023-43654 is published.",
+            "url": "https://github.com/rapid7/metasploit-framework/commit/5a6dc7f9a68fb7898b19f02667360c503e066f5c"
+          }
+        ]
+      }
     }
   ]
 }

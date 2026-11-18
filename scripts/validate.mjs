@@ -10,6 +10,11 @@ const isHttps = (u) => typeof u === "string" && u.startsWith("https://");
 const CVE = /^CVE-\d{4}-\d{4,}$/;
 const POC_TYPES = new Set(["exploit", "lab", "scanner"]);
 const SEVERITIES = new Set(["Critical", "High", "Medium", "Low"]);
+const IMPACT_LEVELS = new Set(["massive", "major", "moderate", "limited", "none-yet"]);
+const ECOSYSTEMS = new Set([
+  "Java", "JavaScript", "PHP", "Ruby", "Python", "Web server", "CMS", "Microsoft",
+  "Linux/Unix", "Network/VPN", "Media server", "RMM/IT", "AI/ML", "Other",
+]);
 
 if (!isDate(data.updated)) err("root", "`updated` must be YYYY-MM-DD");
 if (!Array.isArray(data.vulns)) err("root", "`vulns` must be an array");
@@ -21,7 +26,18 @@ for (const v of data.vulns || []) {
   if (!/^[a-z0-9-]+$/.test(v.slug || "")) err(w, "slug must be lowercase letters, digits, dashes");
   if (slugs.has(v.slug)) err(w, "duplicate slug");
   slugs.add(v.slug);
-  if (!["4shell", "2shell"].includes(v.family)) err(w, "family must be 4shell or 2shell");
+  if (!["4shell", "2shell", "shell-family"].includes(v.family)) err(w, "family must be 4shell, 2shell or shell-family");
+  if (!ECOSYSTEMS.has(v.ecosystem)) err(w, `ecosystem must be one of: ${[...ECOSYSTEMS].join(", ")}`);
+  if (v.real_world) {
+    const rw = v.real_world;
+    if (!IMPACT_LEVELS.has(rw.level)) err(w, `real_world.level must be one of ${[...IMPACT_LEVELS]}`);
+    if (!rw.headline) err(w, "real_world.headline missing");
+    for (const ev of rw.events || []) {
+      if (!/^\d{4}-\d{2}(-\d{2})?$/.test(ev.date || "")) err(w, `real_world event date must be YYYY-MM or YYYY-MM-DD: ${ev.date}`);
+      if (!ev.text) err(w, "real_world event missing text");
+      if (ev.url && !isHttps(ev.url)) err(w, `real_world event url must be https: ${ev.url}`);
+    }
+  }
   if (v.disclosed != null && !isDate(v.disclosed)) err(w, "disclosed must be YYYY-MM-DD or null");
   if (!Array.isArray(v.cves) || !v.cves.length) err(w, "needs at least one CVE");
   for (const c of v.cves || []) {

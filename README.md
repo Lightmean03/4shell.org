@@ -1,8 +1,8 @@
 # 4shell.org
 
-A community index of the **\*4Shell** and **\*2Shell** family of named vulnerabilities: Log4Shell, Spring4Shell, Text4Shell, Java4Shell, React2Shell, PHP2Shell, Node2Shell, wp2shell and the rest.
+A community index of the **\*4Shell** and **\*2Shell** family of named vulnerabilities: Log4Shell, Spring4Shell, Text4Shell, Java4Shell, Plugin4Shell, React2Shell, PHP2Shell, Node2Shell, wp2shell and the rest, plus famous relatives like Shellshock, ProxyShell and ToolShell.
 
-Each entry links to:
+Each entry covers its **real-world impact** (impact level, threat actors, ransomware use, and a sourced timeline of what actually happened) and links to:
 
 - the CVE record on **NIST NVD**
 - **CISA KEV** status
@@ -14,22 +14,27 @@ Live site: **https://4shell.org**
 
 ## How it works
 
-It's a plain static site with no build step, hosted on GitHub Pages.
+A static site built with [Vite](https://vite.dev) and deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 
 ```
-index.html          page shell
-assets/app.js       renders entries from the JSON, plus search and filters
-assets/style.css
-data/vulns.json     ← every entry lives here
-scripts/validate.mjs
+index.html             page shell
+src/main.js            rendering, filters, timeline, URL state
+src/style.css
+data/vulns.json        ← every entry lives here
+public/                CNAME, favicon
+scripts/validate.mjs   schema check (runs before every build)
+scripts/check-links.mjs
 ```
-
-Run it locally:
 
 ```sh
-python3 -m http.server 8000   # then open http://localhost:8000
-node scripts/validate.mjs     # check data/vulns.json
+npm install
+npx vite                    # dev server at http://localhost:5173
+npm run build               # validate data + build to dist/
+npx vite preview            # serve the build
+npm run check-links         # check every URL in data/vulns.json
 ```
+
+Filters, sort order and search are kept in the URL (e.g. `/?sort=impact&only=kev`), and entries can be deep-linked to a tab (e.g. `/#log4shell/impact`).
 
 ## Contributing
 
@@ -38,7 +43,7 @@ To add or fix an entry, edit `data/vulns.json` and open a PR. CI runs `scripts/v
 An entry belongs here if it:
 
 1. has at least one CVE,
-2. is widely called `<Something>4Shell` or `<Something>2Shell`, and
+2. is widely called `<Something>4Shell` or `<Something>2Shell` (family `4shell` / `2shell`), or is a famous bug whose name ends in "Shell" (family `shell-family`), and
 3. has been covered by at least one reputable source (a vendor, CISA, or an established security firm).
 
 Entry shape:
@@ -51,6 +56,7 @@ Entry shape:
   "family": "2shell",
   "product": "Foo Server",
   "vendor": "Foo Inc.",
+  "ecosystem": "Java | JavaScript | PHP | Ruby | Python | Web server | CMS | Microsoft | Linux/Unix | Network/VPN | Media server | RMM/IT | AI/ML | Other",
   "disclosed": "2026-01-31",
   "discoverer": "Researcher / Org",
   "summary": "Two or three plain-English sentences.",
@@ -66,7 +72,15 @@ Entry shape:
   ],
   "official": [{ "title": "Vendor advisory", "url": "https://…" }],
   "writeups":  [{ "title": "…", "url": "https://…" }],
-  "pocs":      [{ "title": "owner/repo", "url": "https://github.com/…", "type": "exploit|lab|scanner", "note": "" }]
+  "pocs":      [{ "title": "owner/repo", "url": "https://github.com/…", "type": "exploit|lab|scanner", "note": "" }],
+  "real_world": {
+    "level": "massive | major | moderate | limited | none-yet",
+    "headline": "One sentence on what actually happened.",
+    "exposure": "How much was exposed, with numbers if sourced.",
+    "actors": ["Named threat actors / campaigns"],
+    "ransomware": true,
+    "events": [{ "date": "2026-02-03", "text": "What happened.", "url": "https://…" }]
+  }
 }
 ```
 

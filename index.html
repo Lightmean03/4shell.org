@@ -4,25 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>4shell.org — Tracking the *4Shell and *2Shell vulnerabilities</title>
-  <meta name="description" content="A community index of every Log4Shell-style named vulnerability: Log4Shell, Spring4Shell, Text4Shell, Java4Shell, React2Shell, PHP2Shell, Node2Shell, wp2shell and more, with NVD, CISA KEV, vendor advisories and public PoCs.">
+  <meta name="description" content="A community index of every Log4Shell-style named vulnerability: Log4Shell, Spring4Shell, Java4Shell, React2Shell, PHP2Shell, Node2Shell, wp2shell and more, with real-world impact, NVD, CISA KEV, vendor advisories and public PoCs.">
   <meta property="og:title" content="4shell.org">
-  <meta property="og:description" content="Every *4Shell and *2Shell vulnerability in one place, with NVD, CISA KEV, advisories and PoCs.">
+  <meta property="og:description" content="Every *4Shell and *2Shell vulnerability in one place: real-world impact, NVD, CISA KEV, advisories and PoCs.">
   <meta property="og:url" content="https://4shell.org/">
   <meta name="theme-color" content="#0b0f14">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-row">
-      <a class="logo" href="#top"><span class="prompt">$</span> 4shell<span class="dim">.org</span></a>
+      <a class="logo" href="#top"><span class="prompt">$</span> 4shell<span class="dim">.org</span><span class="cursor">_</span></a>
       <nav>
+        <a href="#timeline">Timeline</a>
         <a href="#index">Index</a>
         <a href="#about">About</a>
-        <a id="gh-link" href="https://github.com/Lightmean03/4shell.org">GitHub</a>
+        <a href="https://github.com/Lightmean03/4shell.org">GitHub</a>
         <button id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
       </nav>
     </div>
@@ -30,27 +33,71 @@
 
   <main id="top">
     <section class="hero wrap">
-      <p class="eyebrow">// community vulnerability index</p>
+      <p class="eyebrow" id="typed">// community vulnerability index</p>
       <h1>Every <span class="accent">*4Shell</span> and <span class="accent2">*2Shell</span>, in one place.</h1>
       <p class="lede">
         Since Log4Shell in 2021, the internet has named its worst remote-code-execution bugs after it.
-        This site tracks each one, with links to the CVE records at NIST&nbsp;NVD, CISA's Known Exploited
-        Vulnerabilities catalog, vendor advisories, technical write-ups and public proof-of-concepts.
+        This site tracks each one: what it is, what it actually did in the real world, and links to
+        NIST&nbsp;NVD, CISA's Known Exploited Vulnerabilities catalog, vendor advisories, write-ups and public PoCs.
       </p>
       <div class="stats" id="stats"></div>
     </section>
 
-    <section class="wrap" id="index">
-      <div class="controls">
-        <input id="search" type="search" placeholder="Search name, CVE, product…" autocomplete="off" aria-label="Search vulnerabilities">
-        <div class="filters" role="group" aria-label="Filter">
-          <button class="chip active" data-filter="all">All</button>
-          <button class="chip" data-filter="4shell">*4Shell</button>
-          <button class="chip" data-filter="2shell">*2Shell</button>
-          <button class="chip" data-filter="kev">In CISA KEV</button>
-        </div>
+    <section class="wrap" id="timeline">
+      <div class="section-head">
+        <h2>Timeline</h2>
+        <div class="legend" id="legend"></div>
       </div>
-      <p class="updated" id="updated"></p>
+      <p class="hint">Dot size is CVSS and color is real-world impact. Click a dot to jump to that entry.</p>
+      <div class="timeline-box" id="timeline-box">
+        <svg id="timeline-svg" role="img" aria-label="Timeline of disclosures"></svg>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+    </section>
+
+    <section class="wrap" id="index">
+      <div class="section-head">
+        <h2>Index</h2>
+        <span class="count" id="count"></span>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <input id="search" type="search" placeholder="Search name, CVE, product, threat actor…" autocomplete="off" aria-label="Search">
+          <kbd>/</kbd>
+        </div>
+        <label class="select">
+          <span>Sort</span>
+          <select id="sort">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="impact">Real-world impact</option>
+            <option value="cvss">CVSS score</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </label>
+        <label class="select">
+          <span>Ecosystem</span>
+          <select id="ecosystem"><option value="">All</option></select>
+        </label>
+        <label class="select">
+          <span>Year</span>
+          <select id="year"><option value="">All</option></select>
+        </label>
+      </div>
+
+      <div class="toolbar chips-row">
+        <div class="chips" role="group" aria-label="Toggles">
+          <button class="chip" data-toggle="exploited" aria-pressed="false">🔥 Exploited in the wild</button>
+          <button class="chip" data-toggle="kev" aria-pressed="false">CISA KEV</button>
+          <button class="chip" data-toggle="critical" aria-pressed="false">Critical only</button>
+          <button class="chip" data-toggle="ransomware" aria-pressed="false">Ransomware</button>
+        </div>
+        <div class="chips" role="group" aria-label="Real-world impact" id="impact-chips"></div>
+        <button class="chip related-chip" id="related" aria-pressed="true" title="Famous bugs whose name ends in Shell but don't follow the 4Shell/2Shell naming">+ related -Shell bugs</button>
+        <button class="linkish" id="clear" hidden>Clear filters ✕</button>
+      </div>
+
       <div id="list" class="list" aria-live="polite"></div>
     </section>
 
@@ -70,10 +117,14 @@
         <div>
           <h3>What gets listed</h3>
           <p>
-            A bug is listed when it has a CVE, is widely called <code>*4Shell</code> or <code>*2Shell</code>,
-            and has been covered by at least one reputable source. Related "-Shell" bugs that don't follow
-            the naming (ProxyShell, ToolShell, Shellshock) are out of scope.
+            A bug is listed when it has a CVE, a widely used <code>*4Shell</code> / <code>*2Shell</code> name,
+            and coverage from at least one reputable source. Famous relatives whose name also ends in "Shell"
+            (Shellshock, ProxyShell, ToolShell…) are included as <em>related</em> entries.
           </p>
+        </div>
+        <div>
+          <h3>Real-world impact levels</h3>
+          <p id="impact-explainer"></p>
         </div>
         <div>
           <h3>About the PoC links</h3>
@@ -83,15 +134,12 @@
             in an isolated lab, and test only systems you're authorized to test.
           </p>
         </div>
-        <div>
-          <h3>Contribute</h3>
-          <p>
-            Found a new one, a dead link, or a better PoC? Every entry lives in
-            <a id="data-link" href="https://github.com/Lightmean03/4shell.org/blob/main/data/vulns.json"><code>data/vulns.json</code></a>.
-            Open a pull request or an issue on GitHub.
-          </p>
-        </div>
       </div>
+      <p class="contrib">
+        Found a new one, a dead link, or a better PoC? Every entry lives in
+        <a href="https://github.com/Lightmean03/4shell.org/blob/main/data/vulns.json"><code>data/vulns.json</code></a>.
+        <a href="https://github.com/Lightmean03/4shell.org/issues/new/choose">Open an issue</a> or a pull request.
+      </p>
     </section>
   </main>
 
@@ -102,6 +150,7 @@
     </div>
   </footer>
 
-  <script src="assets/app.js" defer></script>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
